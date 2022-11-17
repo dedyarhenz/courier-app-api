@@ -1,0 +1,14 @@
+server:
+  url: "localhost:8080"
+  debug: true
+
+database:
+  host: "localhost"
+  port: "5432"
+  user: "dedyirawan"
+  password: "dedyirawan"
+  dbname: "final_project"
+
+jwt:
+  secretKey: "initsecretkey"
+  durationMinute: 60
