@@ -24,7 +24,8 @@ func main() {
 	{
 		auth := v1.Group("auth")
 		{
-			auth.GET("/login", authHandler.Login)
+			auth.POST("/login", authHandler.Login)
+			auth.POST("/register", authHandler.Register)
 		}
 	}
 

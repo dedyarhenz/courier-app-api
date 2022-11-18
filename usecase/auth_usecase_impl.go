@@ -6,6 +6,8 @@ import (
 	custErr "final-project-backend/pkg/errors"
 	"final-project-backend/pkg/utils"
 	"final-project-backend/repository"
+	"math/rand"
+	"time"
 )
 
 type AuthUsecaseImp struct {
@@ -37,15 +39,15 @@ func (u *AuthUsecaseImp) Login(request dto.UserLoginRequest) (string, error) {
 	return token, nil
 }
 
-func (u *AuthUsecaseImp) Register(request dto.UserRegisterRequest) error {
+func (u *AuthUsecaseImp) Register(request dto.UserRegisterRequest) (*dto.UserRegisterResponse, error) {
 	userAlready, _ := u.repoUser.GetUserByEmail(request.Email)
 	if userAlready != nil {
-		return custErr.ErrEmailAlready
+		return nil, custErr.ErrEmailAlready
 	}
 
 	hashPass, err := utils.HashAndSalt(request.Password)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	userNew := entity.User{
@@ -55,13 +57,32 @@ func (u *AuthUsecaseImp) Register(request dto.UserRegisterRequest) error {
 		Phone:        request.Phone,
 		Role:         entity.UserRole,
 		Balance:      0,
-		RefferalCode: "",
+		RefferalCode: randomString(8),
 	}
 
-	_, err = u.repoUser.CreateUser(userNew)
+	user, err := u.repoUser.CreateUser(userNew)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	userRes := dto.UserRegisterResponse{
+		Email:        user.Email,
+		FullName:     user.FullName,
+		Phone:        user.Phone,
+		RefferalCode: user.RefferalCode,
+	}
+
+	return &userRes, nil
+}
+
+func randomString(length int) string {
+	rand.Seed(time.Now().UTC().UnixNano())
+	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+
+	b := make([]rune, length)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+
+	return string(b)
 }

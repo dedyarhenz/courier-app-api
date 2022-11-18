@@ -53,3 +53,30 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 	helper.SuccessResponse(c.Writer, token, http.StatusCreated)
 }
+
+func (h *AuthHandler) Register(c *gin.Context) {
+	var user dto.UserRegisterRequest
+
+	err := c.ShouldBind(&user)
+	if err != nil {
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+			return
+		}
+
+		for _, errs := range errs {
+			errMsg := fmt.Sprintf("Error field %s condition %s", errs.StructField(), errs.Tag())
+			helper.ErrorResponse(c.Writer, errMsg, http.StatusBadRequest)
+			return
+		}
+	}
+
+	userRes, err := h.usecase.Register(user)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, userRes, http.StatusCreated)
+}
