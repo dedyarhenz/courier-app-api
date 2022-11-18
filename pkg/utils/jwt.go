@@ -9,11 +9,11 @@ import (
 
 type CustomClaim struct {
 	UserId int    `json:"user_id"`
-	Email  string `json:"email"`
+	Role   string `json:"role"`
 	jwt.RegisteredClaims
 }
 
-func GenerateJWT(userId int, email string) (string, error) {
+func GenerateJWT(userId int, role string) (string, error) {
 	secret := viper.GetString("jwt.secretKey")
 	jwtDuration := time.Duration(viper.GetInt("jwt.durationMinute")) * time.Minute
 
@@ -21,8 +21,9 @@ func GenerateJWT(userId int, email string) (string, error) {
 
 	claims := CustomClaim{
 		UserId: userId,
-		Email:  email,
+		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    "Courier App",
 			IssuedAt:  jwt.NewNumericDate(now),
 			ExpiresAt: jwt.NewNumericDate(now.Add(jwtDuration)),
 		},
@@ -45,7 +46,7 @@ func CheckToken(input string) (int, string, error) {
 	})
 
 	if claims, ok := token.Claims.(*CustomClaim); ok && token.Valid {
-		return claims.UserId, claims.Email, nil
+		return claims.UserId, claims.Role, nil
 	} else {
 		return 0, "", err
 	}

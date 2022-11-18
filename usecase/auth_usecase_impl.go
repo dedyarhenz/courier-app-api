@@ -31,7 +31,7 @@ func (u *AuthUsecaseImp) Login(request dto.UserLoginRequest) (string, error) {
 		return "", custErr.ErrLoginFailed
 	}
 
-	token, err := utils.GenerateJWT(user.Id, user.Email)
+	token, err := utils.GenerateJWT(user.Id, user.Role)
 	if err != nil {
 		return "", err
 	}
