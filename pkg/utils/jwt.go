@@ -23,7 +23,7 @@ func GenerateJWT(userId int, role string) (string, error) {
 		UserId: userId,
 		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "Courier App",
+			Issuer:    viper.GetString("appName"),
 			IssuedAt:  jwt.NewNumericDate(now),
 			ExpiresAt: jwt.NewNumericDate(now.Add(jwtDuration)),
 		},
