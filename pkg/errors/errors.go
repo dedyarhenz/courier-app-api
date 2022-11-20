@@ -9,3 +9,4 @@ var ErrEmailAlready = errors.New("email already exist")
 
 var ErrSizeNotFound = errors.New("size not found")
 var ErrCategoryNotFound = errors.New("category not found")
+var ErrAddOnNotFound = errors.New("add on not found")

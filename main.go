@@ -31,6 +31,10 @@ func main() {
 	categoryUsecase := usecase.NewCategoryUsecaseImpl(categoryRepository)
 	categoryHandler := handler.NewCategoryHandler(categoryUsecase)
 
+	addOnRepository := repository.NewAddOnRepositoryImpl(db)
+	addOnUsecase := usecase.NewAddOnUsecaseImpl(addOnRepository)
+	addOnHandler := handler.NewAddOnHandler(addOnUsecase)
+
 	router := gin.Default()
 
 	v1 := router.Group("v1")
@@ -67,6 +71,12 @@ func main() {
 		{
 			categories.Use(middleware.UserAccess())
 			categories.GET("/", categoryHandler.GetAllCategory)
+		}
+
+		addOns := v1.Group("add-ons")
+		{
+			addOns.Use(middleware.UserAccess())
+			addOns.GET("/", addOnHandler.GetAllAddOn)
 		}
 	}
 
