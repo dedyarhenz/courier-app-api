@@ -51,7 +51,13 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	helper.SuccessResponse(c.Writer, token, http.StatusCreated)
+	resToken := struct {
+		Token string `json:"token"`
+	}{
+		Token: token,
+	}
+
+	helper.SuccessResponse(c.Writer, resToken, http.StatusCreated)
 }
 
 func (h *AuthHandler) Register(c *gin.Context) {
