@@ -5,6 +5,7 @@ import (
 	custErr "final-project-backend/pkg/errors"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type UserRepositoryImpl struct {
@@ -59,6 +60,68 @@ func (r *UserRepositoryImpl) CreateUser(user entity.User) (*entity.User, error) 
 
 	if err := r.db.Omit("created_at", "updated_at", "deleted_at").Create(&usr).Error; err != nil {
 		return nil, err
+	}
+
+	return &usr, nil
+}
+
+func (r *UserRepositoryImpl) UpdateUser(user entity.User) (*entity.User, error) {
+	var usr entity.User
+
+	res := r.db.
+		Model(&usr).
+		Where("id = ?", user.Id).
+		Updates(entity.User{
+			Email:    user.Email,
+			FullName: user.FullName,
+			Phone:    user.Phone,
+			Photo:    user.Photo,
+		})
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return nil, custErr.ErrUserNotFound
+	}
+
+	return &usr, nil
+}
+
+func (r *UserRepositoryImpl) AddBalance(userId int, amount int) (*entity.User, error) {
+	var usr entity.User
+
+	res := r.db.
+		Clauses(clause.Returning{}).
+		Model(&usr).Where("id = ?", userId).
+		UpdateColumn("balance", gorm.Expr("balance + ?", amount))
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return nil, custErr.ErrUserNotFound
+	}
+
+	return &usr, nil
+}
+
+func (r *UserRepositoryImpl) ReduceBalance(userId int, amount int) (*entity.User, error) {
+	var usr entity.User
+
+	res := r.db.
+		Clauses(clause.Returning{}).
+		Model(&usr).Where("id = ?", userId).
+		UpdateColumn("balance", gorm.Expr("balance - ?", amount))
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return nil, custErr.ErrUserNotFound
 	}
 
 	return &usr, nil

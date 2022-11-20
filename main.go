@@ -16,6 +16,9 @@ func main() {
 	db := postgres.New(cfg)
 
 	userRepository := repository.NewUserRepositoryImpl(db)
+	userUsecase := usecase.NewUserUsecaseImpl(userRepository)
+	userHandler := handler.NewUserHandler(userUsecase)
+
 	authUsecase := usecase.NewAuthUsecaseImpl(userRepository)
 	authHandler := handler.NewAuthHandler(authUsecase)
 
@@ -56,6 +59,8 @@ func main() {
 		users := v1.Group("users")
 		{
 			users.Use(middleware.UserAccess())
+			users.GET("/", userHandler.GetUserById)
+			users.POST("/top-up", userHandler.TopUp)
 
 			users.GET("/addresses", addressHandler.GetAddressByUser)
 			users.POST("/addresses", addressHandler.CreateAddress)

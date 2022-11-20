@@ -7,6 +7,10 @@ import (
 )
 
 const (
+	MinTopUp = 10000
+)
+
+const (
 	UserRole  = "USER"
 	AdminRole = "ADMIN"
 )
