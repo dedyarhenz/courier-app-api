@@ -40,5 +40,5 @@ func (r *SizeRepositoryImpl) GetSizeById(sizeId int) (*entity.Size, error) {
 		return nil, err
 	}
 
-	return nil, nil
+	return &size, nil
 }
