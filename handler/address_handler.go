@@ -28,7 +28,7 @@ func (h *AddressHandler) GetAllAddress(c *gin.Context) {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 	}
 
-	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusCreated)
+	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
 }
 
 func (h *AddressHandler) GetAddressByUser(c *gin.Context) {
@@ -39,7 +39,7 @@ func (h *AddressHandler) GetAddressByUser(c *gin.Context) {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 	}
 
-	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusCreated)
+	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
 }
 
 func (h *AddressHandler) CreateAddress(c *gin.Context) {

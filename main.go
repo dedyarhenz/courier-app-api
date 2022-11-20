@@ -23,6 +23,10 @@ func main() {
 	addressUsecase := usecase.NewAddressUsecaseImpl(addressRepository)
 	addressHandler := handler.NewAddressHandler(addressUsecase)
 
+	sizeRepository := repository.NewSizeRepositoryImpl(db)
+	sizeUsecase := usecase.NewSizeUsecaseImpl(sizeRepository)
+	sizeHandler := handler.NewSizeHandler(sizeUsecase)
+
 	router := gin.Default()
 
 	v1 := router.Group("v1")
@@ -47,6 +51,12 @@ func main() {
 
 			users.GET("/addresses", addressHandler.GetAddressByUser)
 			users.POST("/addresses", addressHandler.CreateAddress)
+		}
+
+		sizes := v1.Group("sizes")
+		{
+			sizes.Use(middleware.UserAccess())
+			sizes.GET("/", sizeHandler.GetAllSize)
 		}
 	}
 
