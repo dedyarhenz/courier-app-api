@@ -48,12 +48,10 @@ func main() {
 			auth.POST("/register", authHandler.Register)
 		}
 
-		admin := v1.Group("admin")
+		addresses := v1.Group("addresses")
 		{
-			addresses := admin.Group("addresses")
-			{
-				addresses.GET("/", addressHandler.GetAllAddress)
-			}
+			addresses.Use(middleware.AdminAccess())
+			addresses.GET("/", addressHandler.GetAllAddress)
 		}
 
 		users := v1.Group("users")
@@ -62,8 +60,11 @@ func main() {
 			users.GET("/", userHandler.GetUserById)
 			users.POST("/top-up", userHandler.TopUp)
 
-			users.GET("/addresses", addressHandler.GetAddressByUser)
-			users.POST("/addresses", addressHandler.CreateAddress)
+			addresses := users.Group("addresses")
+			{
+				addresses.GET("/", addressHandler.GetAddressByUser)
+				addresses.POST("/", addressHandler.CreateAddress)
+			}
 		}
 
 		sizes := v1.Group("sizes")
