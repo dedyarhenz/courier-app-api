@@ -50,13 +50,13 @@ func main() {
 
 		addresses := v1.Group("addresses")
 		{
-			addresses.Use(middleware.AdminAccess())
+			addresses.Use(middleware.CheckAuth(), middleware.AdminAccess())
 			addresses.GET("/", addressHandler.GetAllAddress)
 		}
 
 		users := v1.Group("users")
 		{
-			users.Use(middleware.UserAccess())
+			users.Use(middleware.CheckAuth(), middleware.UserAccess())
 			users.GET("/", userHandler.GetUserById)
 			users.POST("/top-up", userHandler.TopUp)
 
@@ -69,19 +69,19 @@ func main() {
 
 		sizes := v1.Group("sizes")
 		{
-			sizes.Use(middleware.UserAccess())
+			sizes.Use(middleware.CheckAuth(), middleware.UserAccess())
 			sizes.GET("/", sizeHandler.GetAllSize)
 		}
 
 		categories := v1.Group("categories")
 		{
-			categories.Use(middleware.UserAccess())
+			categories.Use(middleware.CheckAuth(), middleware.UserAccess())
 			categories.GET("/", categoryHandler.GetAllCategory)
 		}
 
 		addOns := v1.Group("add-ons")
 		{
-			addOns.Use(middleware.UserAccess())
+			addOns.Use(middleware.CheckAuth(), middleware.UserAccess())
 			addOns.GET("/", addOnHandler.GetAllAddOn)
 		}
 	}
