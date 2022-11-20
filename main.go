@@ -27,6 +27,10 @@ func main() {
 	sizeUsecase := usecase.NewSizeUsecaseImpl(sizeRepository)
 	sizeHandler := handler.NewSizeHandler(sizeUsecase)
 
+	categoryRepository := repository.NewCategoryRepositoryImpl(db)
+	categoryUsecase := usecase.NewCategoryUsecaseImpl(categoryRepository)
+	categoryHandler := handler.NewCategoryHandler(categoryUsecase)
+
 	router := gin.Default()
 
 	v1 := router.Group("v1")
@@ -57,6 +61,12 @@ func main() {
 		{
 			sizes.Use(middleware.UserAccess())
 			sizes.GET("/", sizeHandler.GetAllSize)
+		}
+
+		categories := v1.Group("categories")
+		{
+			categories.Use(middleware.UserAccess())
+			categories.GET("/", categoryHandler.GetAllCategory)
 		}
 	}
 
