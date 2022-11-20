@@ -18,7 +18,17 @@ func NewUserRepositoryImpl(db *gorm.DB) UserRepository {
 }
 
 func (r *UserRepositoryImpl) GetUserById(userId int) (*entity.User, error) {
-	return nil, nil
+	var usr entity.User
+
+	if err := r.db.First(&usr, userId).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, custErr.ErrUserNotFound
+		}
+
+		return nil, err
+	}
+
+	return &usr, nil
 }
 
 func (r *UserRepositoryImpl) GetUserByEmail(email string) (*entity.User, error) {
