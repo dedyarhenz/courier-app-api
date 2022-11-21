@@ -8,6 +8,7 @@ import (
 
 const (
 	MinTopUp = 10000
+	MaxTopUp = 10000000
 )
 
 const (

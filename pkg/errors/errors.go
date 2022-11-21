@@ -12,3 +12,4 @@ var ErrCategoryNotFound = errors.New("category not found")
 var ErrAddOnNotFound = errors.New("add on not found")
 
 var ErrMinTopUp = errors.New("topup min Rp.10.000")
+var ErrMaxTopUp = errors.New("topup max Rp.10.000.000")

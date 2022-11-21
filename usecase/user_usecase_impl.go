@@ -56,6 +56,10 @@ func (u *UserUsecaseImpl) TopUp(request dto.TopUpRequest) (*dto.UserResponse, er
 		return nil, custErr.ErrMinTopUp
 	}
 
+	if request.Amount > entity.MaxTopUp {
+		return nil, custErr.ErrMaxTopUp
+	}
+
 	user, err := u.repoUser.AddBalance(request.UserId, request.Amount)
 	if err != nil {
 		return nil, err
