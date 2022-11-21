@@ -13,6 +13,29 @@ type UserRepository struct {
 	mock.Mock
 }
 
+// AddBalance provides a mock function with given fields: userId, amount
+func (_m *UserRepository) AddBalance(userId int, amount int) (*entity.User, error) {
+	ret := _m.Called(userId, amount)
+
+	var r0 *entity.User
+	if rf, ok := ret.Get(0).(func(int, int) *entity.User); ok {
+		r0 = rf(userId, amount)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, amount)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateUser provides a mock function with given fields: user
 func (_m *UserRepository) CreateUser(user entity.User) (*entity.User, error) {
 	ret := _m.Called(user)
@@ -75,6 +98,52 @@ func (_m *UserRepository) GetUserById(userId int) (*entity.User, error) {
 	var r1 error
 	if rf, ok := ret.Get(1).(func(int) error); ok {
 		r1 = rf(userId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// ReduceBalance provides a mock function with given fields: userId, amount
+func (_m *UserRepository) ReduceBalance(userId int, amount int) (*entity.User, error) {
+	ret := _m.Called(userId, amount)
+
+	var r0 *entity.User
+	if rf, ok := ret.Get(0).(func(int, int) *entity.User); ok {
+		r0 = rf(userId, amount)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, amount)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateUser provides a mock function with given fields: user
+func (_m *UserRepository) UpdateUser(user entity.User) (*entity.User, error) {
+	ret := _m.Called(user)
+
+	var r0 *entity.User
+	if rf, ok := ret.Get(0).(func(entity.User) *entity.User); ok {
+		r0 = rf(user)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(entity.User) error); ok {
+		r1 = rf(user)
 	} else {
 		r1 = ret.Error(1)
 	}

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"final-project-backend/entity"
+	custErr "final-project-backend/pkg/errors"
 
 	"gorm.io/gorm"
 )
@@ -38,6 +39,21 @@ func (r *AddressRepositoryImpl) GetAddressByUserId(userId int) ([]entity.Address
 	}
 
 	return addresses, nil
+}
+
+func (r *AddressRepositoryImpl) GetAddressBySpecificUser(userId int, addresId int) (*entity.Address, error) {
+	var address entity.Address
+
+	err := r.db.Where("user_id = ?", userId).First(&address, addresId).Error
+
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, custErr.ErrAddressNotFound
+		}
+		return nil, err
+	}
+
+	return &address, nil
 }
 
 func (r *AddressRepositoryImpl) CreateAddress(address entity.Address) (*entity.Address, error) {

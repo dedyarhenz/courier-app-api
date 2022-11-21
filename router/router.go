@@ -34,6 +34,15 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	addOnUsecase := usecase.NewAddOnUsecaseImpl(addOnRepository)
 	addOnHandler := handler.NewAddOnHandler(addOnUsecase)
 
+	paymentRepository := repository.NewPaymentRepositoryImpl(db)
+
+	shippingRepository := repository.NewShippingRepositoryImpl(db)
+	shippingUsecase := usecase.NewShippingUsecaseImpl(
+		shippingRepository, paymentRepository, userRepository,
+		addressRepository, sizeRepository, categoryRepository, addOnRepository,
+	)
+	shippingHandler := handler.NewShippingHandler(shippingUsecase)
+
 	v1 := router.Group("v1")
 	{
 		auth := v1.Group("auth")
@@ -58,6 +67,11 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 			{
 				addresses.GET("/", addressHandler.GetAddressByUser)
 				addresses.POST("/", addressHandler.CreateAddress)
+			}
+
+			shippings := users.Group("shippings")
+			{
+				shippings.POST("/", shippingHandler.CreateShipping)
 			}
 		}
 

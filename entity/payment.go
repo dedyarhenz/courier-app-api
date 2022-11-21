@@ -6,6 +6,11 @@ import (
 	"gorm.io/gorm"
 )
 
+const (
+	PAYMENT_PENDING = "PENDING"
+	pAYMENT_SUCCESS = "SUCCESS"
+)
+
 type Payment struct {
 	Id            int            `gorm:"primaryKey;column:id"`
 	PaymentStatus string         `gorm:"column:payment_status"`

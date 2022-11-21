@@ -42,3 +42,14 @@ func (r *AddOnRepositoryImpl) GetAddOnById(addOnId int) (*entity.AddOn, error) {
 
 	return &addOn, nil
 }
+
+func (r *AddOnRepositoryImpl) GetAddOnByMultipleId(addOnsId []int) ([]entity.AddOn, error) {
+	var addOns []entity.AddOn
+
+	err := r.db.Find(&addOns, addOnsId).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return addOns, nil
+}

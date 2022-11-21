@@ -36,6 +36,29 @@ func (_m *AddressRepository) CreateAddress(address entity.Address) (*entity.Addr
 	return r0, r1
 }
 
+// GetAddressBySpecificUser provides a mock function with given fields: userId, addressId
+func (_m *AddressRepository) GetAddressBySpecificUser(userId int, addressId int) (*entity.Address, error) {
+	ret := _m.Called(userId, addressId)
+
+	var r0 *entity.Address
+	if rf, ok := ret.Get(0).(func(int, int) *entity.Address); ok {
+		r0 = rf(userId, addressId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Address)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, addressId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetAddressByUserId provides a mock function with given fields: userId
 func (_m *AddressRepository) GetAddressByUserId(userId int) ([]entity.Address, error) {
 	ret := _m.Called(userId)
