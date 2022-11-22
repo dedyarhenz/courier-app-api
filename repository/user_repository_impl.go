@@ -89,6 +89,7 @@ func (r *UserRepositoryImpl) UpdateUser(user entity.User) (*entity.User, error) 
 	}
 
 	res := r.db.
+		Omit("created_at", "updated_at", "deleted_at").
 		Clauses(clause.Returning{}).
 		Where("id = ?", user.Id).
 		Updates(&usr)
