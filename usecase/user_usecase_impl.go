@@ -30,15 +30,16 @@ func (u *UserUsecaseImpl) GetUserById(userId int) (*dto.UserResponse, error) {
 
 func (u *UserUsecaseImpl) UpdateUserById(request dto.UserUpdateRequest) (*dto.UserResponse, error) {
 	userAlready, _ := u.repoUser.GetUserByEmail(request.Email)
-	if userAlready != nil {
+	if userAlready != nil && userAlready.Email != request.Email {
 		return nil, custErr.ErrEmailAlready
 	}
 
 	user := entity.User{
+		Id:       request.Id,
 		Email:    request.Email,
 		FullName: request.FullName,
 		Phone:    request.Phone,
-		Photo:    request.Phone,
+		Photo:    request.Photo,
 	}
 
 	userUpdated, err := u.repoUser.UpdateUser(user)

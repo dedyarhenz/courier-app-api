@@ -34,6 +34,35 @@ func (h *UserHandler) GetUserById(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resUser, http.StatusOK)
 }
 
+func (h *UserHandler) UpdateUserById(c *gin.Context) {
+	var reqUser dto.UserUpdateRequest
+
+	err := c.ShouldBind(&reqUser)
+	if err != nil {
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+			return
+		}
+
+		for _, errs := range errs {
+			errMsg := fmt.Sprintf("Error field %s condition %s", errs.StructField(), errs.Tag())
+			helper.ErrorResponse(c.Writer, errMsg, http.StatusBadRequest)
+			return
+		}
+	}
+
+	reqUser.Id = c.GetInt("user_id")
+
+	resAddress, err := h.usecase.UpdateUserById(reqUser)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resAddress, http.StatusOK)
+}
+
 func (h *UserHandler) TopUp(c *gin.Context) {
 	input := dto.TopUpRequest{}
 	err := c.ShouldBindJSON(&input)

@@ -3,13 +3,13 @@ package dto
 import "final-project-backend/entity"
 
 type UserResponse struct {
-	Id           int    `gorm:"primaryKey;column:id"`
-	Email        string `gorm:"column:email"`
-	FullName     string `gorm:"column:long_name"`
-	Phone        string `gorm:"column:phone"`
-	Balance      int    `gorm:"column:balance"`
-	Photo        string `gorm:"column:photo"`
-	RefferalCode string `gorm:"column:refferal_code"`
+	Id           int    `json:"id"`
+	Email        string `json:"email"`
+	FullName     string `json:"full_name"`
+	Phone        string `json:"phone"`
+	Balance      int    `json:"balance"`
+	Photo        string `json:"photo"`
+	RefferalCode string `json:"refferal_code"`
 }
 
 func CreateUserResponse(user entity.User) UserResponse {

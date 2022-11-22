@@ -66,6 +66,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 		{
 			users.Use(middleware.CheckAuth(), middleware.UserAccess())
 			users.GET("/", userHandler.GetUserById)
+			users.PUT("/", userHandler.UpdateUserById)
 			users.POST("/top-up", userHandler.TopUp)
 
 			addresses := users.Group("addresses")

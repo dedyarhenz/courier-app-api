@@ -81,17 +81,17 @@ func (r *UserRepositoryImpl) CreateUser(user entity.User) (*entity.User, error) 
 }
 
 func (r *UserRepositoryImpl) UpdateUser(user entity.User) (*entity.User, error) {
-	var usr entity.User
+	usr := entity.User{
+		Email:    user.Email,
+		FullName: user.FullName,
+		Phone:    user.Phone,
+		Photo:    user.Photo,
+	}
 
 	res := r.db.
-		Model(&usr).
+		Clauses(clause.Returning{}).
 		Where("id = ?", user.Id).
-		Updates(entity.User{
-			Email:    user.Email,
-			FullName: user.FullName,
-			Phone:    user.Phone,
-			Photo:    user.Photo,
-		})
+		Updates(&usr)
 
 	if res.Error != nil {
 		return nil, res.Error
