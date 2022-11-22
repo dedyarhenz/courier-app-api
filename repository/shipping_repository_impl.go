@@ -40,6 +40,7 @@ func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int) ([]entity.Sh
 	var shippings []entity.Shipping
 
 	err := r.db.
+		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
 		Preload("Address").
 		Preload("Size").
 		Preload("Category").
