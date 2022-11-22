@@ -38,7 +38,7 @@ func NewShippingUsecaseImpl(
 }
 
 func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int) ([]dto.ShippingResponse, error) {
-	shippings, err := u.repoShipping.GetShippingByUserId(userId)
+	shippings, err := u.repoShipping.GetAllShippingByUserId(userId)
 	if err != nil {
 		return nil, err
 	}

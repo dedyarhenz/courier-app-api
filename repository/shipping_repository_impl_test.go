@@ -30,7 +30,7 @@ func TestShippingRepositoryImpl_CreateShipping(t *testing.T) {
 
 func TestShippingRepositoryImpl_GetShippingByUserId(t *testing.T) {
 	r := NewShippingRepositoryImpl(db)
-	res, err := r.GetShippingByUserId(1)
+	res, err := r.GetAllShippingByUserId(1)
 	if err != nil {
 		fmt.Println(err)
 	}

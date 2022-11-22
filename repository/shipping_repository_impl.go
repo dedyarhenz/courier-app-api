@@ -36,7 +36,7 @@ func (r *ShippingRepositoryImpl) CreateShipping(shipping entity.Shipping) (*enti
 	return &newShipping, nil
 }
 
-func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int) ([]entity.Shipping, error) {
+func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int) ([]entity.Shipping, error) {
 	var shippings []entity.Shipping
 
 	err := r.db.
