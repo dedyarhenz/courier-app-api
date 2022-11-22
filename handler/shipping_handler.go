@@ -50,3 +50,15 @@ func (h *ShippingHandler) CreateShipping(c *gin.Context) {
 
 	helper.SuccessResponse(c.Writer, resShipping, http.StatusCreated)
 }
+
+func (h *ShippingHandler) GetAllShippingByUserId(c *gin.Context) {
+	userId := c.GetInt("user_id")
+
+	resShippings, err := h.usecase.GetAllShippingByUserId(userId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
+}

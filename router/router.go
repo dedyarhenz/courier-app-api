@@ -3,6 +3,7 @@ package router
 import (
 	"final-project-backend/handler"
 	"final-project-backend/middleware"
+	"final-project-backend/pkg/helper"
 	"final-project-backend/repository"
 	"final-project-backend/usecase"
 
@@ -43,6 +44,10 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	)
 	shippingHandler := handler.NewShippingHandler(shippingUsecase)
 
+	router.NoRoute(func(c *gin.Context) {
+		helper.ErrorResponse(c.Writer, "not found", 404)
+	})
+
 	v1 := router.Group("v1")
 	{
 		auth := v1.Group("auth")
@@ -71,6 +76,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 
 			shippings := users.Group("shippings")
 			{
+				shippings.GET("/", shippingHandler.GetAllShippingByUserId)
 				shippings.POST("/", shippingHandler.CreateShipping)
 			}
 		}

@@ -4,6 +4,7 @@ import (
 	"final-project-backend/entity"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type ShippingRepositoryImpl struct {
@@ -27,10 +28,27 @@ func (r *ShippingRepositoryImpl) CreateShipping(shipping entity.Shipping) (*enti
 		AddOnShippings: shipping.AddOnShippings,
 	}
 
-	err := r.db.Omit("created_at", "updated_at", "deleted_at").Create(&newShipping).Error
+	err := r.db.Clauses(clause.Returning{}).Omit("created_at", "updated_at", "deleted_at").Create(&newShipping).Error
 	if err != nil {
 		return nil, err
 	}
 
 	return &newShipping, nil
+}
+
+func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int) ([]entity.Shipping, error) {
+	var shippings []entity.Shipping
+
+	err := r.db.
+		Preload("Address").
+		Preload("Size").
+		Preload("Category").
+		Preload("Payment").
+		Find(&shippings).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return shippings, nil
 }

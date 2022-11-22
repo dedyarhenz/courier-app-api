@@ -27,3 +27,12 @@ func TestShippingRepositoryImpl_CreateShipping(t *testing.T) {
 	}
 	fmt.Println(res)
 }
+
+func TestShippingRepositoryImpl_GetShippingByUserId(t *testing.T) {
+	r := NewShippingRepositoryImpl(db)
+	res, err := r.GetShippingByUserId(1)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("%v", res)
+}

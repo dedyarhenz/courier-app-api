@@ -1,6 +1,8 @@
 package dto
 
-import "final-project-backend/entity"
+import (
+	"final-project-backend/entity"
+)
 
 type ShippingResponse struct {
 	Id             int               `json:"id"`
@@ -12,22 +14,32 @@ type ShippingResponse struct {
 	Size           *SizeResponse     `json:"size"`
 	Category       *CategoryResponse `json:"category"`
 	Address        *AddressResponse  `json:"addres"`
+	Payment        *PaymentResponse  `json:"payment"`
 }
 
 func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 	var size *SizeResponse
 	if shipping.Size != nil {
-		*size = CreateSizeResponse(*shipping.Size)
+		res := CreateSizeResponse(*shipping.Size)
+		size = &res
 	}
 
 	var category *CategoryResponse
 	if shipping.Category != nil {
-		*category = CreateCategoryResponse(*shipping.Category)
+		res := CreateCategoryResponse(*shipping.Category)
+		category = &res
 	}
 
 	var address *AddressResponse
 	if shipping.Address != nil {
-		*address = CreateAddressResponse(*shipping.Address)
+		res := CreateAddressResponse(*shipping.Address)
+		address = &res
+	}
+
+	var payment *PaymentResponse
+	if shipping.Payment != nil {
+		res := CreatePaymentResponse(*shipping.Payment)
+		payment = &res
 	}
 
 	return ShippingResponse{
@@ -40,6 +52,7 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		Size:           size,
 		Category:       category,
 		Address:        address,
+		Payment:        payment,
 	}
 }
 
