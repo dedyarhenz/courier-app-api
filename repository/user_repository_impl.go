@@ -46,16 +46,31 @@ func (r *UserRepositoryImpl) GetUserByEmail(email string) (*entity.User, error) 
 	return &usr, nil
 }
 
+func (r *UserRepositoryImpl) GetUserByRefferalCode(refferalCode string) (*entity.User, error) {
+	var usr entity.User
+
+	if err := r.db.Where("refferal_code = ?", refferalCode).First(&usr).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, custErr.ErrReffCodeInvalid
+		}
+
+		return nil, err
+	}
+
+	return &usr, nil
+}
+
 func (r *UserRepositoryImpl) CreateUser(user entity.User) (*entity.User, error) {
 	usr := entity.User{
-		Email:        user.Email,
-		Password:     user.Password,
-		FullName:     user.FullName,
-		Phone:        user.Phone,
-		Role:         user.Role,
-		Balance:      user.Balance,
-		Photo:        user.Photo,
-		RefferalCode: user.RefferalCode,
+		Email:          user.Email,
+		Password:       user.Password,
+		FullName:       user.FullName,
+		Phone:          user.Phone,
+		Role:           user.Role,
+		Balance:        user.Balance,
+		Photo:          user.Photo,
+		RefferalCode:   user.RefferalCode,
+		RefferedUserId: user.RefferedUserId,
 	}
 
 	if err := r.db.Omit("created_at", "updated_at", "deleted_at").Create(&usr).Error; err != nil {

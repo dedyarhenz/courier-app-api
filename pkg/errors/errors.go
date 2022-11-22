@@ -5,6 +5,7 @@ import "errors"
 var ErrInvalidRequest = errors.New("invalid request")
 var ErrLoginFailed = errors.New("wrong email or password")
 var ErrEmailAlready = errors.New("email already exist")
+var ErrReffCodeInvalid = errors.New("refferal code invalid")
 
 var ErrUserNotFound = errors.New("user not found")
 var ErrSizeNotFound = errors.New("size not found")
