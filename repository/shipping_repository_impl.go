@@ -78,3 +78,21 @@ func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int, shippingId int)
 
 	return &shipping, nil
 }
+
+func (r *ShippingRepositoryImpl) UpdateReviewByUserId(userId int, shippingId int, review string) error {
+	res := r.db.
+		Model(&entity.Shipping{}).
+		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND shippings.user_id = ?", userId).
+		Where("shippings.id", shippingId).
+		UpdateColumn("review", review)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return custErr.ErrShippingNotFound
+	}
+
+	return nil
+}

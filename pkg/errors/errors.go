@@ -18,3 +18,5 @@ var ErrMaxTopUp = errors.New("topup max Rp.10.000.000")
 
 var ErrMinAddOns = errors.New("min select 1 add on")
 var ErrAddOnInvalid = errors.New("add on id invalid")
+
+var ErrShippingReview = errors.New("send review after shipping done")

@@ -79,6 +79,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 				shippings.GET("/", shippingHandler.GetAllShippingByUserId)
 				shippings.GET("/:id", shippingHandler.GetShippingByUserId)
 				shippings.POST("/", shippingHandler.CreateShipping)
+				shippings.PUT("/:id/review", shippingHandler.UpdateReviewByUserId)
 			}
 		}
 

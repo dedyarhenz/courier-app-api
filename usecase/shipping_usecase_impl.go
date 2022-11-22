@@ -59,6 +59,24 @@ func (u *ShippingUsecaseImpl) GetShippingByUserId(userId int, shippingId int) (*
 	return &resShippings, nil
 }
 
+func (u *ShippingUsecaseImpl) UpdateReviewByUserId(request dto.ShippingReviewRequest) error {
+	shipping, err := u.repoShipping.GetShippingByUserId(request.UserId, request.ShippingId)
+	if err != nil {
+		return err
+	}
+
+	if shipping.StatusShipping != entity.SHIPP_DELIVERED {
+		return custErr.ErrShippingReview
+	}
+
+	err = u.repoShipping.UpdateReviewByUserId(request.UserId, request.ShippingId, request.Review)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) (*dto.ShippingResponse, error) {
 	if len(request.AddOnsId) == 0 {
 		return nil, custErr.ErrMinAddOns
