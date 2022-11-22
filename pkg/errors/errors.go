@@ -11,6 +11,7 @@ var ErrSizeNotFound = errors.New("size not found")
 var ErrCategoryNotFound = errors.New("category not found")
 var ErrAddOnNotFound = errors.New("add on not found")
 var ErrAddressNotFound = errors.New("address not found")
+var ErrShippingNotFound = errors.New("shipping not found")
 
 var ErrMinTopUp = errors.New("topup min Rp.10.000")
 var ErrMaxTopUp = errors.New("topup max Rp.10.000.000")

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"final-project-backend/entity"
+	custErr "final-project-backend/pkg/errors"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -52,4 +53,28 @@ func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int) ([]entity.Sh
 	}
 
 	return shippings, nil
+}
+
+func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error) {
+	var shipping entity.Shipping
+
+	err := r.db.
+		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
+		Preload("Address").
+		Preload("Size").
+		Preload("Category").
+		Preload("Payment").
+		Preload("AddOns").
+		Where("shippings.id", shippingId).
+		First(&shipping).Error
+
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, custErr.ErrShippingNotFound
+		}
+
+		return nil, err
+	}
+
+	return &shipping, nil
 }

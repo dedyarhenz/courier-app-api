@@ -48,6 +48,17 @@ func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int) ([]dto.Shipping
 	return resShippings, nil
 }
 
+func (u *ShippingUsecaseImpl) GetShippingByUserId(userId int, shippingId int) (*dto.ShippingResponse, error) {
+	shipping, err := u.repoShipping.GetShippingByUserId(userId, shippingId)
+	if err != nil {
+		return nil, err
+	}
+
+	resShippings := dto.CreateShippingResponse(*shipping)
+
+	return &resShippings, nil
+}
+
 func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) (*dto.ShippingResponse, error) {
 	if len(request.AddOnsId) == 0 {
 		return nil, custErr.ErrMinAddOns

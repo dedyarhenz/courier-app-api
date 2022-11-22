@@ -7,6 +7,7 @@ import (
 	"final-project-backend/usecase"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -55,6 +56,23 @@ func (h *ShippingHandler) GetAllShippingByUserId(c *gin.Context) {
 	userId := c.GetInt("user_id")
 
 	resShippings, err := h.usecase.GetAllShippingByUserId(userId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
+}
+
+func (h *ShippingHandler) GetShippingByUserId(c *gin.Context) {
+	shippingId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+	userId := c.GetInt("user_id")
+
+	resShippings, err := h.usecase.GetShippingByUserId(userId, shippingId)
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 		return

@@ -15,6 +15,7 @@ type ShippingResponse struct {
 	Category       *CategoryResponse `json:"category"`
 	Address        *AddressResponse  `json:"addres"`
 	Payment        *PaymentResponse  `json:"payment"`
+	AddOns         []AddOnResponse   `json:"add_ons"`
 }
 
 func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
@@ -42,6 +43,12 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		payment = &res
 	}
 
+	var addOns []AddOnResponse
+	if shipping.AddOns != nil {
+		res := CreateAddOnListResponse(shipping.AddOns)
+		addOns = res
+	}
+
 	return ShippingResponse{
 		Id:             shipping.Id,
 		SizeId:         shipping.SizeId,
@@ -53,6 +60,7 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		Category:       category,
 		Address:        address,
 		Payment:        payment,
+		AddOns:         addOns,
 	}
 }
 

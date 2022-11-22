@@ -26,6 +26,7 @@ type Shipping struct {
 	Address        *Address        `gorm:"foreignKey:AddressId;references:Id"`
 	Payment        *Payment        `gorm:"foreignKey:PaymentId;references:Id"`
 	AddOnShippings []AddOnShipping `gorm:"foreignKey:ShippingId;references:Id"`
+	AddOns         []AddOn         `gorm:"many2many:add_on_shippings;foreignKey:Id;joinForeignKey:ShippingId;References:Id;joinReferences:AddOnId"`
 	CreatedAt      time.Time       `gorm:"column:created_at"`
 	UpdatedAt      time.Time       `gorm:"column:updated_at"`
 	DeletedAt      gorm.DeletedAt  `gorm:"column:deleted_at"`
