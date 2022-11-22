@@ -21,7 +21,7 @@ func NewUserRepositoryImpl(db *gorm.DB) UserRepository {
 func (r *UserRepositoryImpl) GetUserById(userId int) (*entity.User, error) {
 	var usr entity.User
 
-	if err := r.db.First(&usr, userId).Error; err != nil {
+	if err := r.db.Preload("RefferedUser").First(&usr, userId).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, custErr.ErrUserNotFound
 		}

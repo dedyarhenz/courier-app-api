@@ -27,6 +27,7 @@ type User struct {
 	Photo          string         `gorm:"column:photo"`
 	RefferalCode   string         `gorm:"column:refferal_code"`
 	RefferedUserId *int           `gorm:"column:reffered_user_id"`
+	RefferedUser   *User          `gorm:"column:reffered_user;foreignKey:RefferedUserId;references:Id"`
 	CreatedAt      time.Time      `gorm:"column:created_at"`
 	UpdatedAt      time.Time      `gorm:"column:updated_at"`
 	DeletedAt      gorm.DeletedAt `gorm:"column:deleted_at"`
