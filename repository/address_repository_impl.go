@@ -5,6 +5,7 @@ import (
 	custErr "final-project-backend/pkg/errors"
 
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type AddressRepositoryImpl struct {
@@ -66,6 +67,31 @@ func (r *AddressRepositoryImpl) CreateAddress(address entity.Address) (*entity.A
 
 	if err := r.db.Omit("created_at", "updated_at", "deleted_at").Create(&newAddress).Error; err != nil {
 		return nil, err
+	}
+
+	return &newAddress, nil
+}
+
+func (r *AddressRepositoryImpl) UpdateAddressByUserId(address entity.Address) (*entity.Address, error) {
+	newAddress := entity.Address{
+		RecipientName:  address.RecipientName,
+		FullAddress:    address.FullAddress,
+		RecipientPhone: address.RecipientPhone,
+		UserId:         address.UserId,
+	}
+	res := r.db.
+		Clauses(clause.Returning{}).
+		Omit("created_at", "updated_at", "deleted_at").
+		Where("user_id = ?", address.UserId).
+		Where("id = ?", address.Id).
+		UpdateColumns(&newAddress)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return nil, custErr.ErrAddressNotFound
 	}
 
 	return &newAddress, nil

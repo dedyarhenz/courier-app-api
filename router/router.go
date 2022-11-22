@@ -72,6 +72,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 			{
 				addresses.GET("/", addressHandler.GetAddressByUser)
 				addresses.POST("/", addressHandler.CreateAddress)
+				addresses.PUT("/:id", addressHandler.UpdateAddressByUserId)
 			}
 
 			shippings := users.Group("shippings")

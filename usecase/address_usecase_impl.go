@@ -55,3 +55,22 @@ func (u *AddressUsecaseImpl) CreateAddress(request dto.AddressCreateRequest) (*d
 
 	return &resAddress, nil
 }
+
+func (u *AddressUsecaseImpl) UpdateAddressByUserId(request dto.AddressUpdateRequest) (*dto.AddressResponse, error) {
+	newAddress := entity.Address{
+		Id:             request.Id,
+		RecipientName:  request.RecipientName,
+		FullAddress:    request.FullAddress,
+		RecipientPhone: request.RecipientPhone,
+		UserId:         request.UserId,
+	}
+
+	address, err := u.repoAddress.UpdateAddressByUserId(newAddress)
+	if err != nil {
+		return nil, err
+	}
+
+	resAddress := dto.CreateAddressResponse(*address)
+
+	return &resAddress, nil
+}

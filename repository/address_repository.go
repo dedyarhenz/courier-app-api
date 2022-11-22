@@ -7,4 +7,5 @@ type AddressRepository interface {
 	GetAddressByUserId(userId int) ([]entity.Address, error)
 	GetAddressBySpecificUser(userId int, addressId int) (*entity.Address, error)
 	CreateAddress(address entity.Address) (*entity.Address, error)
+	UpdateAddressByUserId(address entity.Address) (*entity.Address, error)
 }
