@@ -22,6 +22,7 @@ func (h *SizeHandler) GetAllSize(c *gin.Context) {
 	resAllSize, err := h.usecase.GetAllSize()
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAllSize, http.StatusOK)

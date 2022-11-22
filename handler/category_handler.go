@@ -22,6 +22,7 @@ func (h *CategoryHandler) GetAllCategory(c *gin.Context) {
 	resAllCategory, err := h.usecase.GetAllCategory()
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAllCategory, http.StatusOK)

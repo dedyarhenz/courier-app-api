@@ -22,6 +22,7 @@ func (h *AddOnHandler) GetAllAddOn(c *gin.Context) {
 	resAllAddOn, err := h.usecase.GetAllAddOn()
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAllAddOn, http.StatusOK)

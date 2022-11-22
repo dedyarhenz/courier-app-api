@@ -26,6 +26,7 @@ func (h *AddressHandler) GetAllAddress(c *gin.Context) {
 	resAllAddress, err := h.usecase.GetAllAddress()
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
@@ -37,6 +38,7 @@ func (h *AddressHandler) GetAddressByUser(c *gin.Context) {
 	resAllAddress, err := h.usecase.GetAddressByUserId(userId)
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
@@ -65,6 +67,7 @@ func (h *AddressHandler) CreateAddress(c *gin.Context) {
 	resAddress, err := h.usecase.CreateAddress(reqAddress)
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	helper.SuccessResponse(c.Writer, resAddress, http.StatusCreated)
