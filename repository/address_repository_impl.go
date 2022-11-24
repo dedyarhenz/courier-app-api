@@ -30,7 +30,7 @@ func (r *AddressRepositoryImpl) GetAllAddress() ([]entity.Address, error) {
 	return addresses, nil
 }
 
-func (r *AddressRepositoryImpl) GetAddressByUserId(userId int) ([]entity.Address, error) {
+func (r *AddressRepositoryImpl) GetAllAddressByUserId(userId int) ([]entity.Address, error) {
 	var addresses []entity.Address
 
 	err := r.db.Where("user_id = ?", userId).Find(&addresses).Error
@@ -42,7 +42,7 @@ func (r *AddressRepositoryImpl) GetAddressByUserId(userId int) ([]entity.Address
 	return addresses, nil
 }
 
-func (r *AddressRepositoryImpl) GetAddressBySpecificUser(userId int, addresId int) (*entity.Address, error) {
+func (r *AddressRepositoryImpl) GetAddressByUserId(userId int, addresId int) (*entity.Address, error) {
 	var address entity.Address
 
 	err := r.db.Where("user_id = ?", userId).First(&address, addresId).Error

@@ -27,8 +27,8 @@ func (u *AddressUsecaseImpl) GetAllAddress() ([]dto.AddressResponse, error) {
 	return resAllAddress, nil
 }
 
-func (u *AddressUsecaseImpl) GetAddressByUserId(userId int) ([]dto.AddressResponse, error) {
-	userAddress, err := u.repoAddress.GetAddressByUserId(userId)
+func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int) ([]dto.AddressResponse, error) {
+	userAddress, err := u.repoAddress.GetAllAddressByUserId(userId)
 	if err != nil {
 		return nil, err
 	}

@@ -102,7 +102,7 @@ func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) 
 		return nil, err
 	}
 
-	address, err := u.repoAddress.GetAddressBySpecificUser(request.UserId, request.AddressId)
+	address, err := u.repoAddress.GetAddressByUserId(request.UserId, request.AddressId)
 	if err != nil {
 		return nil, err
 	}

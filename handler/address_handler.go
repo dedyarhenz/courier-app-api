@@ -33,10 +33,10 @@ func (h *AddressHandler) GetAllAddress(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
 }
 
-func (h *AddressHandler) GetAddressByUser(c *gin.Context) {
+func (h *AddressHandler) GetAllAddressByUserId(c *gin.Context) {
 	userId := c.GetInt("user_id")
 
-	resAllAddress, err := h.usecase.GetAddressByUserId(userId)
+	resAllAddress, err := h.usecase.GetAllAddressByUserId(userId)
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 		return
