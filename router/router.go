@@ -51,6 +51,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	router.NoRoute(func(c *gin.Context) {
 		helper.ErrorResponse(c.Writer, "not found", 404)
 	})
+	router.Use(middleware.CORSMiddleware())
 
 	v1 := router.Group("v1")
 	{
