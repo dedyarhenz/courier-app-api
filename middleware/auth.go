@@ -34,7 +34,7 @@ func CheckAuth() gin.HandlerFunc {
 
 		userId, role, err := utils.CheckToken(token)
 		if err != nil {
-			helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+			helper.ErrorResponse(c.Writer, err.Error(), http.StatusForbidden)
 			c.Abort()
 		}
 

@@ -8,6 +8,7 @@ import (
 type JSONResponse struct {
 	Message string `json:"message,omitempty"`
 	Data    any    `json:"data,omitempty"`
+	Code    int    `json:"code"`
 }
 
 func returnJSONResponse(w http.ResponseWriter, message string, data any, statusCode int) {
@@ -16,6 +17,7 @@ func returnJSONResponse(w http.ResponseWriter, message string, data any, statusC
 	json.NewEncoder(w).Encode(JSONResponse{
 		Message: message,
 		Data:    data,
+		Code:    statusCode,
 	})
 }
 
