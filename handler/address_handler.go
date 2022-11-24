@@ -45,6 +45,23 @@ func (h *AddressHandler) GetAllAddressByUserId(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resAllAddress, http.StatusOK)
 }
 
+func (h *AddressHandler) GetAddressByUserId(c *gin.Context) {
+	addressId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+	userId := c.GetInt("user_id")
+
+	resAddress, err := h.usecase.GetAddressByUserId(userId, addressId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resAddress, http.StatusOK)
+}
+
 func (h *AddressHandler) CreateAddress(c *gin.Context) {
 	var reqAddress dto.AddressCreateRequest
 

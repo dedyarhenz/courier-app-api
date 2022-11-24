@@ -38,6 +38,17 @@ func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int) ([]dto.AddressRes
 	return resUserAddress, nil
 }
 
+func (u *AddressUsecaseImpl) GetAddressByUserId(userId int, addressId int) (*dto.AddressResponse, error) {
+	userAddress, err := u.repoAddress.GetAddressByUserId(userId, addressId)
+	if err != nil {
+		return nil, err
+	}
+
+	resUserAddress := dto.CreateAddressResponse(*userAddress)
+
+	return &resUserAddress, nil
+}
+
 func (u *AddressUsecaseImpl) CreateAddress(request dto.AddressCreateRequest) (*dto.AddressResponse, error) {
 	newAddress := entity.Address{
 		RecipientName:  request.RecipientName,
