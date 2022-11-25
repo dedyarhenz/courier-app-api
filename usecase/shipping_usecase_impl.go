@@ -4,9 +4,9 @@ import (
 	"final-project-backend/dto"
 	"final-project-backend/entity"
 	custErr "final-project-backend/pkg/errors"
+	"final-project-backend/pkg/helper"
 	"final-project-backend/repository"
 	"fmt"
-	"strings"
 )
 
 type ShippingUsecaseImpl struct {
@@ -40,7 +40,7 @@ func NewShippingUsecaseImpl(
 }
 
 func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
-	orderAndSort := fmt.Sprintf("%s %s", checkOrder(order), checkSortBy(sortBy))
+	orderAndSort := fmt.Sprintf("%s %s", checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShipping(search)
 	totalPage := totalData/int64(limit) + 1
@@ -65,7 +65,7 @@ func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string,
 }
 
 func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int, page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
-	orderAndSort := fmt.Sprintf("%s %s", checkOrder(order), checkSortBy(sortBy))
+	orderAndSort := fmt.Sprintf("%s %s", checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShippingByUserId(userId, search)
 	totalPage := totalData/int64(limit) + 1
@@ -193,7 +193,7 @@ func calculateCost(addOns []entity.AddOn, size entity.Size, category entity.Cate
 	return totalCost
 }
 
-func checkOrder(order string) string {
+func checkOrderShipping(order string) string {
 	switch order {
 	case "date":
 		order = "created_at"
@@ -210,17 +210,4 @@ func checkOrder(order string) string {
 	}
 
 	return order
-}
-
-func checkSortBy(sortBy string) string {
-	switch strings.ToUpper(sortBy) {
-	case "ASC":
-		sortBy = "ASC"
-	case "DESC":
-		sortBy = "DESC"
-	default:
-		sortBy = "DESC"
-	}
-
-	return sortBy
 }
