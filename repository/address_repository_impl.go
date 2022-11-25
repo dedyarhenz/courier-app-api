@@ -30,10 +30,17 @@ func (r *AddressRepositoryImpl) GetAllAddress() ([]entity.Address, error) {
 	return addresses, nil
 }
 
-func (r *AddressRepositoryImpl) GetAllAddressByUserId(userId int) ([]entity.Address, error) {
+func (r *AddressRepositoryImpl) GetAllAddressByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Address, error) {
 	var addresses []entity.Address
 
-	err := r.db.Where("user_id = ?", userId).Find(&addresses).Error
+	err := r.db.
+		Where("user_id = ?", userId).
+		Where(`full_address ILIKE CONCAT('%',?,'%')`, search).
+		Offset(offset).
+		Limit(limit).
+		Order(orderAndSort).
+		Find(&addresses).
+		Error
 
 	if err != nil {
 		return nil, err
@@ -95,4 +102,11 @@ func (r *AddressRepositoryImpl) UpdateAddressByUserId(address entity.Address) (*
 	}
 
 	return &newAddress, nil
+}
+
+func (r *AddressRepositoryImpl) CountAddressByUserId(userId int) int64 {
+	var totalAddress int64
+	r.db.Model(&entity.Address{}).Where("user_id = ?", userId).Count(&totalAddress)
+
+	return totalAddress
 }

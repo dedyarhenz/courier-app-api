@@ -27,15 +27,29 @@ func (u *AddressUsecaseImpl) GetAllAddress() ([]dto.AddressResponse, error) {
 	return resAllAddress, nil
 }
 
-func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int) ([]dto.AddressResponse, error) {
-	userAddress, err := u.repoAddress.GetAllAddressByUserId(userId)
+func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int, page int, limit int, search string) (dto.AddressPaginateResponse, error) {
+	orderAndSort := "created_at desc"
+	offset := (page * limit) - limit
+	totalData := u.repoAddress.CountAddressByUserId(userId)
+	totalPage := totalData/int64(limit) + 1
+
+	resAddressPaginate := dto.AddressPaginateResponse{
+		Page:      page,
+		Limit:     limit,
+		Totaldata: int(totalData),
+		TotalPage: int(totalPage),
+		Data:      []dto.AddressResponse{},
+	}
+
+	userAddress, err := u.repoAddress.GetAllAddressByUserId(userId, offset, limit, search, orderAndSort)
 	if err != nil {
-		return nil, err
+		return resAddressPaginate, err
 	}
 
 	resUserAddress := dto.CreateAddressListResponse(userAddress)
+	resAddressPaginate.Data = resUserAddress
 
-	return resUserAddress, nil
+	return resAddressPaginate, nil
 }
 
 func (u *AddressUsecaseImpl) GetAddressByUserId(userId int, addressId int) (*dto.AddressResponse, error) {
