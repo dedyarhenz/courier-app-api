@@ -80,6 +80,22 @@ func (h *ShippingHandler) GetAllShipping(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
 }
 
+func (h *ShippingHandler) GetShippingById(c *gin.Context) {
+	shippingId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	resShippings, err := h.usecase.GetShippingById(shippingId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
+}
+
 func (h *ShippingHandler) GetAllShippingByUserId(c *gin.Context) {
 	userId := c.GetInt("user_id")
 	search := c.DefaultQuery("search", "")

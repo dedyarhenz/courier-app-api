@@ -4,6 +4,7 @@ import "final-project-backend/entity"
 
 type ShippingRepository interface {
 	GetAllShipping(offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error)
+	GetShippingById(shippingId int) (*entity.Shipping, error)
 	GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error)
 	GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error)
 	CreateShipping(shipping entity.Shipping) (*entity.Shipping, error)

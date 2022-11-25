@@ -64,6 +64,17 @@ func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string,
 	return resShippingPaginate, nil
 }
 
+func (u *ShippingUsecaseImpl) GetShippingById(shippingId int) (*dto.ShippingResponse, error) {
+	shipping, err := u.repoShipping.GetShippingById(shippingId)
+	if err != nil {
+		return nil, err
+	}
+
+	resShippings := dto.CreateShippingResponse(*shipping)
+
+	return &resShippings, nil
+}
+
 func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int, page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
 	orderAndSort := fmt.Sprintf("%s %s", checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit

@@ -58,6 +58,29 @@ func (r *ShippingRepositoryImpl) GetAllShipping(offset int, limit int, search st
 	return shippings, nil
 }
 
+func (r *ShippingRepositoryImpl) GetShippingById(shippingId int) (*entity.Shipping, error) {
+	var shipping entity.Shipping
+
+	err := r.db.
+		Preload("Address").
+		Preload("Size").
+		Preload("Category").
+		Preload("Payment").
+		Preload("AddOns").
+		Where("shippings.id", shippingId).
+		First(&shipping).Error
+
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, custErr.ErrShippingNotFound
+		}
+
+		return nil, err
+	}
+
+	return &shipping, nil
+}
+
 func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error) {
 	var shippings []entity.Shipping
 
