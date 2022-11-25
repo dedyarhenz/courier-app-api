@@ -56,7 +56,7 @@ func (h *ShippingHandler) GetAllShipping(c *gin.Context) {
 	search := c.DefaultQuery("search", "")
 	limit := c.DefaultQuery("limit", "10")
 	page := c.DefaultQuery("page", "1")
-	order := c.DefaultQuery("order", "date")
+	order := c.DefaultQuery("order", "expired")
 	sortBy := c.DefaultQuery("sortBy", "desc")
 
 	lim, err := strconv.Atoi(limit)

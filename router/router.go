@@ -36,6 +36,8 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	addOnHandler := handler.NewAddOnHandler(addOnUsecase)
 
 	promoRepository := repository.NewPromoRepositoryImpl(db)
+	promoUsecase := usecase.NewPromoUsecaseImpl(promoRepository)
+	promoHandler := handler.NewPromoHandler(promoUsecase)
 
 	paymentRepository := repository.NewPaymentRepositoryImpl(db)
 	paymentUsecase := usecase.NewPaymentUsecaseImpl(paymentRepository, userRepository, promoRepository)
@@ -71,6 +73,14 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 		{
 			shippings.Use(middleware.CheckAuth(), middleware.AdminAccess())
 			shippings.GET("/", shippingHandler.GetAllShipping)
+		}
+
+		promos := v1.Group("promos")
+		{
+			promos.Use(middleware.CheckAuth(), middleware.AdminAccess())
+			promos.GET("/", promoHandler.GetAllPromo)
+			promos.POST("/", promoHandler.CreatePromo)
+			promos.PUT("/:id", promoHandler.UpdatePromo)
 		}
 
 		users := v1.Group("users")
