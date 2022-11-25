@@ -109,16 +109,20 @@ func (r *AddressRepositoryImpl) UpdateAddressByUserId(address entity.Address) (*
 	return &newAddress, nil
 }
 
-func (r *AddressRepositoryImpl) CountAddressByUserId(userId int) int64 {
+func (r *AddressRepositoryImpl) CountAddressByUserId(userId int, search string) int64 {
 	var totalAddress int64
-	r.db.Model(&entity.Address{}).Where("user_id = ?", userId).Count(&totalAddress)
+
+	r.db.Model(&entity.Address{}).
+		Where(`full_address ILIKE CONCAT('%',?,'%')`, search).
+		Where("user_id = ?", userId).
+		Count(&totalAddress)
 
 	return totalAddress
 }
 
-func (r *AddressRepositoryImpl) CountAddress() int64 {
+func (r *AddressRepositoryImpl) CountAddress(search string) int64 {
 	var totalAddress int64
-	r.db.Model(&entity.Address{}).Count(&totalAddress)
+	r.db.Model(&entity.Address{}).Where(`full_address ILIKE CONCAT('%',?,'%')`, search).Count(&totalAddress)
 
 	return totalAddress
 }
