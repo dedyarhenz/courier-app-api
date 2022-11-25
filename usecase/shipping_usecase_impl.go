@@ -40,7 +40,7 @@ func NewShippingUsecaseImpl(
 }
 
 func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
-	orderAndSort := fmt.Sprintf("%s %s", checkOrderShipping(order), helper.CheckSortBy(sortBy))
+	orderAndSort := fmt.Sprintf("%s %s", u.checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShipping(search)
 	totalPage := totalData/int64(limit) + 1
@@ -76,7 +76,7 @@ func (u *ShippingUsecaseImpl) GetShippingById(shippingId int) (*dto.ShippingResp
 }
 
 func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int, page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
-	orderAndSort := fmt.Sprintf("%s %s", checkOrderShipping(order), helper.CheckSortBy(sortBy))
+	orderAndSort := fmt.Sprintf("%s %s", u.checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShippingByUserId(userId, search)
 	totalPage := totalData/int64(limit) + 1
@@ -163,7 +163,7 @@ func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) 
 		return nil, custErr.ErrAddOnInvalid
 	}
 
-	totalCost := calculateCost(addOns, *size, *category)
+	totalCost := u.calculateCost(addOns, *size, *category)
 	payment, err := u.repoPayment.CreatePayment(entity.Payment{PaymentStatus: entity.PAYMENT_PENDING, TotalCost: totalCost})
 	if err != nil {
 		return nil, err
@@ -193,7 +193,7 @@ func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) 
 	return &resShipping, nil
 }
 
-func calculateCost(addOns []entity.AddOn, size entity.Size, category entity.Category) int {
+func (u *ShippingUsecaseImpl) calculateCost(addOns []entity.AddOn, size entity.Size, category entity.Category) int {
 	totalAddOn := 0
 	for _, addOn := range addOns {
 		totalAddOn += addOn.Price
@@ -204,7 +204,7 @@ func calculateCost(addOns []entity.AddOn, size entity.Size, category entity.Cate
 	return totalCost
 }
 
-func checkOrderShipping(order string) string {
+func (u *ShippingUsecaseImpl) checkOrderShipping(order string) string {
 	switch order {
 	case "date":
 		order = "created_at"
