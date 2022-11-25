@@ -18,10 +18,15 @@ func NewAddressRepositoryImpl(db *gorm.DB) AddressRepository {
 	}
 }
 
-func (r *AddressRepositoryImpl) GetAllAddress() ([]entity.Address, error) {
+func (r *AddressRepositoryImpl) GetAllAddress(offset int, limit int, search string, orderAndSort string) ([]entity.Address, error) {
 	var addresses []entity.Address
 
-	err := r.db.Find(&addresses).Error
+	err := r.db.
+		Where(`full_address ILIKE CONCAT('%',?,'%')`, search).
+		Offset(offset).
+		Limit(limit).
+		Order(orderAndSort).
+		Find(&addresses).Error
 
 	if err != nil {
 		return nil, err
@@ -107,6 +112,13 @@ func (r *AddressRepositoryImpl) UpdateAddressByUserId(address entity.Address) (*
 func (r *AddressRepositoryImpl) CountAddressByUserId(userId int) int64 {
 	var totalAddress int64
 	r.db.Model(&entity.Address{}).Where("user_id = ?", userId).Count(&totalAddress)
+
+	return totalAddress
+}
+
+func (r *AddressRepositoryImpl) CountAddress() int64 {
+	var totalAddress int64
+	r.db.Model(&entity.Address{}).Count(&totalAddress)
 
 	return totalAddress
 }

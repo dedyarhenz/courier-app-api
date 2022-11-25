@@ -24,7 +24,23 @@ func NewAddressHandler(usecase usecase.AddressUsecase) AddressHandler {
 }
 
 func (h *AddressHandler) GetAllAddress(c *gin.Context) {
-	resAllAddress, err := h.usecase.GetAllAddress()
+	search := c.DefaultQuery("search", "")
+	limit := c.DefaultQuery("limit", "10")
+	page := c.DefaultQuery("page", "1")
+
+	lim, err := strconv.Atoi(limit)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	pag, err := strconv.Atoi(page)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	resAllAddress, err := h.usecase.GetAllAddress(pag, lim, search)
 	if err != nil {
 		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 		return

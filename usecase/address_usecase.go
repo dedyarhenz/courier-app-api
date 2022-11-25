@@ -5,7 +5,7 @@ import (
 )
 
 type AddressUsecase interface {
-	GetAllAddress() ([]dto.AddressResponse, error)
+	GetAllAddress(page int, limit int, search string) (dto.AddressPaginateResponse, error)
 	GetAllAddressByUserId(userId int, page int, limit int, search string) (dto.AddressPaginateResponse, error)
 	GetAddressByUserId(userId int, addressId int) (*dto.AddressResponse, error)
 	CreateAddress(request dto.AddressCreateRequest) (*dto.AddressResponse, error)

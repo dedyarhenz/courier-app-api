@@ -16,15 +16,29 @@ func NewAddressUsecaseImpl(repoAddress repository.AddressRepository) AddressUsec
 	}
 }
 
-func (u *AddressUsecaseImpl) GetAllAddress() ([]dto.AddressResponse, error) {
-	allAddress, err := u.repoAddress.GetAllAddress()
+func (u *AddressUsecaseImpl) GetAllAddress(page int, limit int, search string) (dto.AddressPaginateResponse, error) {
+	orderAndSort := "created_at desc"
+	offset := (page * limit) - limit
+	totalData := u.repoAddress.CountAddress()
+	totalPage := totalData/int64(limit) + 1
+
+	resAddressPaginate := dto.AddressPaginateResponse{
+		Page:      page,
+		Limit:     limit,
+		Totaldata: int(totalData),
+		TotalPage: int(totalPage),
+		Data:      []dto.AddressResponse{},
+	}
+
+	allAddress, err := u.repoAddress.GetAllAddress(offset, limit, search, orderAndSort)
 	if err != nil {
-		return nil, err
+		return resAddressPaginate, err
 	}
 
 	resAllAddress := dto.CreateAddressListResponse(allAddress)
+	resAddressPaginate.Data = resAllAddress
 
-	return resAllAddress, nil
+	return resAddressPaginate, nil
 }
 
 func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int, page int, limit int, search string) (dto.AddressPaginateResponse, error) {
