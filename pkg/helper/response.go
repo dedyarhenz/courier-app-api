@@ -6,18 +6,18 @@ import (
 )
 
 type JSONResponse struct {
+	Code    int    `json:"code"`
 	Message string `json:"message,omitempty"`
 	Data    any    `json:"data,omitempty"`
-	Code    int    `json:"code"`
 }
 
 func returnJSONResponse(w http.ResponseWriter, message string, data any, statusCode int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 	json.NewEncoder(w).Encode(JSONResponse{
+		Code:    statusCode,
 		Message: message,
 		Data:    data,
-		Code:    statusCode,
 	})
 }
 

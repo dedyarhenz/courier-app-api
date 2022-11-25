@@ -37,15 +37,44 @@ func (r *ShippingRepositoryImpl) CreateShipping(shipping entity.Shipping) (*enti
 	return &newShipping, nil
 }
 
-func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int) ([]entity.Shipping, error) {
+func (r *ShippingRepositoryImpl) GetAllShipping(offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error) {
 	var shippings []entity.Shipping
 
 	err := r.db.
-		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
 		Preload("Address").
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
+		Where("status_shipping ILIKE CONCAT('%',?,'%')", search).
+		Offset(offset).
+		Limit(limit).
+		Order(orderAndSort).
+		Find(&shippings).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return shippings, nil
+}
+
+func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error) {
+	var shippings []entity.Shipping
+
+	err := r.db.
+		Joins(`
+			INNER JOIN addresses 
+			ON addresses.id = shippings.address_id 
+			AND addresses.user_id = ?
+		`, userId).
+		Preload("Address").
+		Preload("Size").
+		Preload("Category").
+		Preload("Payment").
+		Where("status_shipping ILIKE CONCAT('%',?,'%')", search).
+		Offset(offset).
+		Limit(limit).
+		Order(orderAndSort).
 		Find(&shippings).Error
 
 	if err != nil {
@@ -95,4 +124,28 @@ func (r *ShippingRepositoryImpl) UpdateReviewByUserId(userId int, shippingId int
 	}
 
 	return nil
+}
+
+func (r *ShippingRepositoryImpl) CountShippingByUserId(userId int, search string) int64 {
+	var totalShipping int64
+
+	r.db.
+		Model(&entity.Shipping{}).
+		Joins(`
+			INNER JOIN addresses 
+			ON addresses.id = shippings.address_id 
+			AND addresses.user_id = ?
+		`, userId).
+		Where("status_shipping ILIKE CONCAT('%',?,'%')", search).
+		Count(&totalShipping)
+
+	return totalShipping
+}
+
+func (r *ShippingRepositoryImpl) CountShipping(search string) int64 {
+	var totalShipping int64
+
+	r.db.Model(&entity.Shipping{}).Where("status_shipping ILIKE CONCAT('%',?,'%')", search).Count(&totalShipping)
+
+	return totalShipping
 }

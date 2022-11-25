@@ -5,6 +5,8 @@ import (
 	"final-project-backend/entity"
 	custErr "final-project-backend/pkg/errors"
 	"final-project-backend/repository"
+	"fmt"
+	"strings"
 )
 
 type ShippingUsecaseImpl struct {
@@ -37,15 +39,54 @@ func NewShippingUsecaseImpl(
 	}
 }
 
-func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int) ([]dto.ShippingResponse, error) {
-	shippings, err := u.repoShipping.GetAllShippingByUserId(userId)
+func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
+	orderAndSort := fmt.Sprintf("%s %s", checkOrder(order), checkSortBy(sortBy))
+	offset := (page * limit) - limit
+	totalData := u.repoShipping.CountShipping(search)
+	totalPage := totalData/int64(limit) + 1
+
+	resShippingPaginate := dto.ShippingPaginateResponse{
+		Page:      page,
+		Limit:     limit,
+		Totaldata: int(totalData),
+		TotalPage: int(totalPage),
+		Data:      []dto.ShippingResponse{},
+	}
+
+	shippings, err := u.repoShipping.GetAllShipping(offset, limit, search, orderAndSort)
 	if err != nil {
-		return nil, err
+		return resShippingPaginate, err
 	}
 
 	resShippings := dto.CreateShippingListResponse(shippings)
+	resShippingPaginate.Data = resShippings
 
-	return resShippings, nil
+	return resShippingPaginate, nil
+}
+
+func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int, page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
+	orderAndSort := fmt.Sprintf("%s %s", checkOrder(order), checkSortBy(sortBy))
+	offset := (page * limit) - limit
+	totalData := u.repoShipping.CountShippingByUserId(userId, search)
+	totalPage := totalData/int64(limit) + 1
+
+	resShippingPaginate := dto.ShippingPaginateResponse{
+		Page:      page,
+		Limit:     limit,
+		Totaldata: int(totalData),
+		TotalPage: int(totalPage),
+		Data:      []dto.ShippingResponse{},
+	}
+
+	shippings, err := u.repoShipping.GetAllShippingByUserId(userId, offset, limit, search, orderAndSort)
+	if err != nil {
+		return resShippingPaginate, err
+	}
+
+	resShippings := dto.CreateShippingListResponse(shippings)
+	resShippingPaginate.Data = resShippings
+
+	return resShippingPaginate, nil
 }
 
 func (u *ShippingUsecaseImpl) GetShippingByUserId(userId int, shippingId int) (*dto.ShippingResponse, error) {
@@ -150,4 +191,36 @@ func calculateCost(addOns []entity.AddOn, size entity.Size, category entity.Cate
 	totalCost := totalAddOn + size.Price + category.Price
 
 	return totalCost
+}
+
+func checkOrder(order string) string {
+	switch order {
+	case "date":
+		order = "created_at"
+	case "category":
+		order = "category_id"
+	case "size":
+		order = "size_id"
+	case "payment":
+		order = "payment_id"
+	case "status":
+		order = "status_shipping"
+	default:
+		order = "created_at"
+	}
+
+	return order
+}
+
+func checkSortBy(sortBy string) string {
+	switch strings.ToUpper(sortBy) {
+	case "ASC":
+		sortBy = "ASC"
+	case "DESC":
+		sortBy = "DESC"
+	default:
+		sortBy = "DESC"
+	}
+
+	return sortBy
 }

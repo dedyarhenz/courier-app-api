@@ -67,6 +67,12 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 			addresses.GET("/", addressHandler.GetAllAddress)
 		}
 
+		shippings := v1.Group("shippings")
+		{
+			shippings.Use(middleware.CheckAuth(), middleware.AdminAccess())
+			shippings.GET("/", shippingHandler.GetAllShipping)
+		}
+
 		users := v1.Group("users")
 		{
 			users.Use(middleware.CheckAuth(), middleware.UserAccess())

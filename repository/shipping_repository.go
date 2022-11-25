@@ -3,8 +3,11 @@ package repository
 import "final-project-backend/entity"
 
 type ShippingRepository interface {
-	GetAllShippingByUserId(userId int) ([]entity.Shipping, error)
+	GetAllShipping(offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error)
+	GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error)
 	GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error)
 	CreateShipping(shipping entity.Shipping) (*entity.Shipping, error)
 	UpdateReviewByUserId(userId int, shippingId int, review string) error
+	CountShipping(search string) int64
+	CountShippingByUserId(userId int, search string) int64
 }
