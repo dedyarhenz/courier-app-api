@@ -40,6 +40,8 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	promoHandler := handler.NewPromoHandler(promoUsecase)
 
 	promoUserRepository := repository.NewPromoUserRepositoryImpl(db)
+	promoUserUsecase := usecase.NewPromoUserUsecaseImpl(promoUserRepository)
+	promoUserHandler := handler.NewPromoUserHandler(promoUserUsecase)
 
 	paymentRepository := repository.NewPaymentRepositoryImpl(db)
 	paymentUsecase := usecase.NewPaymentUsecaseImpl(paymentRepository, userRepository, promoUserRepository)
@@ -121,6 +123,11 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 			games := users.Group("games")
 			{
 				games.POST("/play", gameHandler.Play)
+			}
+
+			promos := users.Group("promos")
+			{
+				promos.GET("/", promoUserHandler.GetAllPromoUserByUserId)
 			}
 		}
 
