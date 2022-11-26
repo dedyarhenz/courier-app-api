@@ -39,8 +39,10 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	promoUsecase := usecase.NewPromoUsecaseImpl(promoRepository)
 	promoHandler := handler.NewPromoHandler(promoUsecase)
 
+	promoUserRepository := repository.NewPromoUserRepositoryImpl(db)
+
 	paymentRepository := repository.NewPaymentRepositoryImpl(db)
-	paymentUsecase := usecase.NewPaymentUsecaseImpl(paymentRepository, userRepository, promoRepository)
+	paymentUsecase := usecase.NewPaymentUsecaseImpl(paymentRepository, userRepository, promoUserRepository)
 	paymenthandler := handler.NewPaymentHandler(paymentUsecase)
 
 	shippingRepository := repository.NewShippingRepositoryImpl(db)

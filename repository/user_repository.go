@@ -10,4 +10,6 @@ type UserRepository interface {
 	UpdateUser(user entity.User) (*entity.User, error)
 	AddBalance(userId int, amount int) (*entity.User, error)
 	ReduceBalance(userId int, amount int) (*entity.User, error)
+	UpdatedCompleteBonus(userId int, completeBonus bool) error
+	UpdatedCompleteBonusReff(userId int, completeBonusReff bool) error
 }

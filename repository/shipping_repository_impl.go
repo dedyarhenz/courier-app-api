@@ -134,7 +134,7 @@ func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int, shippingId int)
 func (r *ShippingRepositoryImpl) UpdateReviewByUserId(userId int, shippingId int, review string) error {
 	res := r.db.
 		Model(&entity.Shipping{}).
-		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND shippings.user_id = ?", userId).
+		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
 		Where("shippings.id", shippingId).
 		UpdateColumn("review", review)
 

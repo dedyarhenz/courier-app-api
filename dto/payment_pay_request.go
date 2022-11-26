@@ -1,7 +1,7 @@
 package dto
 
 type PaymentPayRequest struct {
-	PaymentId int  `json:"-"`
-	UserId    int  `json:"-"`
-	PromoId   *int `json:"promo_id" binding:"omitempty,numeric"`
+	PaymentId   int  `json:"-"`
+	UserId      int  `json:"-"`
+	PromoUserId *int `json:"promo_user_id" binding:"omitempty,numeric"`
 }

@@ -68,3 +68,18 @@ func (r *PaymentRepositoryImpl) UpdatePayment(payment entity.Payment) (*entity.P
 
 	return &newPayment, nil
 }
+
+func (r *PaymentRepositoryImpl) TotalCostPaymentSuccessUser(userId int, paymentId int) int64 {
+	var total int64
+
+	r.db.
+		Table("payments").
+		Select("sum(total_cost)").
+		Joins("INNER JOIN shippings ON shippings.payment_id = payments.id").
+		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
+		Where("payments.payment_status", "SUCCESS").
+		Where("payments.id = ?", paymentId).
+		Scan(&total)
+
+	return total
+}

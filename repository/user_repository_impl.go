@@ -142,3 +142,37 @@ func (r *UserRepositoryImpl) ReduceBalance(userId int, amount int) (*entity.User
 
 	return &usr, nil
 }
+
+func (r *UserRepositoryImpl) UpdatedCompleteBonus(userId int, completeBonus bool) error {
+	res := r.db.
+		Model(&entity.User{}).
+		Where("id = ?", userId).
+		UpdateColumn("is_complete_bonus", completeBonus)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return custErr.ErrUserNotFound
+	}
+
+	return nil
+}
+
+func (r *UserRepositoryImpl) UpdatedCompleteBonusReff(userId int, completeBonusReff bool) error {
+	res := r.db.
+		Model(&entity.User{}).
+		Where("id = ?", userId).
+		UpdateColumn("is_complete_bonus_reff", completeBonusReff)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return custErr.ErrUserNotFound
+	}
+
+	return nil
+}
