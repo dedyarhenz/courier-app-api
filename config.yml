@@ -14,3 +14,9 @@ database:
 jwt:
   secretKey: "initsecretkey"
   durationMinute: 60
+
+cloudinary:
+  cloudName: "ddbitrcyl"
+  apiKey: "298325763756752"
+  apiSecret: "tzJTdYKFAR_eBVGjwzUqN4zeUDQ"
+  uploadFolder: "final-project-courier-app"

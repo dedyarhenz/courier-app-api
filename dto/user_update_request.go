@@ -1,9 +1,11 @@
 package dto
 
+import "mime/multipart"
+
 type UserUpdateRequest struct {
 	Id       int    `json:"-"`
-	Email    string `json:"email" binding:"required,email"`
-	FullName string `json:"full_name" binding:"required"`
-	Phone    string `json:"phone" binding:"required"`
-	Photo    string `json:"photo" binding:"omitempty"`
+	Email    string `form:"email" binding:"required,email"`
+	FullName string `form:"full_name" binding:"required"`
+	Phone    string `form:"phone" binding:"required"`
+	Photo    multipart.File
 }

@@ -4,6 +4,7 @@ import (
 	"final-project-backend/dto"
 	"final-project-backend/entity"
 	custErr "final-project-backend/pkg/errors"
+	"final-project-backend/pkg/helper"
 	"final-project-backend/repository"
 )
 
@@ -34,12 +35,17 @@ func (u *UserUsecaseImpl) UpdateUserById(request dto.UserUpdateRequest) (*dto.Us
 		return nil, custErr.ErrEmailAlready
 	}
 
+	photoUrl, err := helper.ImageUploadHelper(request.Photo)
+	if err != nil {
+		return nil, err
+	}
+
 	user := entity.User{
 		Id:       request.Id,
 		Email:    request.Email,
 		FullName: request.FullName,
 		Phone:    request.Phone,
-		Photo:    request.Photo,
+		Photo:    photoUrl,
 	}
 
 	userUpdated, err := u.repoUser.UpdateUser(user)

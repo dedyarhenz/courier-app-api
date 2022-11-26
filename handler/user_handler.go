@@ -35,7 +35,7 @@ func (h *UserHandler) GetUserById(c *gin.Context) {
 }
 
 func (h *UserHandler) UpdateUserById(c *gin.Context) {
-	var reqUser dto.UserUpdateRequest
+	reqUser := dto.UserUpdateRequest{}
 
 	err := c.ShouldBind(&reqUser)
 	if err != nil {
@@ -52,6 +52,12 @@ func (h *UserHandler) UpdateUserById(c *gin.Context) {
 		}
 	}
 
+	file, _, err := c.Request.FormFile("photo")
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+	}
+
+	reqUser.Photo = file
 	reqUser.Id = c.GetInt("user_id")
 
 	resAddress, err := h.usecase.UpdateUserById(reqUser)
