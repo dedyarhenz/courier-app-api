@@ -178,3 +178,39 @@ func (h *ShippingHandler) UpdateReviewByUserId(c *gin.Context) {
 
 	helper.SuccessResponse(c.Writer, nil, http.StatusOK)
 }
+
+func (h *ShippingHandler) UpdateStatusShipping(c *gin.Context) {
+
+	shippingId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	reqShippingStatus := dto.ShippingUpdateStatusRequest{
+		ShippingId: shippingId,
+	}
+
+	err = c.ShouldBind(&reqShippingStatus)
+	if err != nil {
+		errs, ok := err.(validator.ValidationErrors)
+		if !ok {
+			helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+			return
+		}
+
+		for _, errs := range errs {
+			errMsg := fmt.Sprintf("Error field %s condition %s", errs.StructField(), errs.Tag())
+			helper.ErrorResponse(c.Writer, errMsg, http.StatusBadRequest)
+			return
+		}
+	}
+
+	err = h.usecase.UpdateStatusShipping(reqShippingStatus)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, nil, http.StatusOK)
+}

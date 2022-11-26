@@ -76,6 +76,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 			shippings.Use(middleware.CheckAuth(), middleware.AdminAccess())
 			shippings.GET("/", shippingHandler.GetAllShipping)
 			shippings.GET("/:id", shippingHandler.GetShippingById)
+			shippings.PUT("/:id/status", shippingHandler.UpdateStatusShipping)
 		}
 
 		promos := v1.Group("promos")

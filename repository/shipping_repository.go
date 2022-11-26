@@ -9,6 +9,7 @@ type ShippingRepository interface {
 	GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error)
 	CreateShipping(shipping entity.Shipping) (*entity.Shipping, error)
 	UpdateReviewByUserId(userId int, shippingId int, review string) error
+	UpdateStatusShipping(shippingId int, statusShipping string) error
 	CountShipping(search string) int64
 	CountShippingByUserId(userId int, search string) int64
 }

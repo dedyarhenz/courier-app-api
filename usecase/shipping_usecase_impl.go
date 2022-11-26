@@ -7,6 +7,7 @@ import (
 	"final-project-backend/pkg/helper"
 	"final-project-backend/repository"
 	"fmt"
+	"strings"
 )
 
 type ShippingUsecaseImpl struct {
@@ -122,6 +123,38 @@ func (u *ShippingUsecaseImpl) UpdateReviewByUserId(request dto.ShippingReviewReq
 	}
 
 	err = u.repoShipping.UpdateReviewByUserId(request.UserId, request.ShippingId, request.Review)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func (u *ShippingUsecaseImpl) UpdateStatusShipping(request dto.ShippingUpdateStatusRequest) error {
+	var statusShippig string
+
+	switch strings.ToUpper(request.StatusShipping) {
+	case entity.SHIPP_PROCESS:
+		statusShippig = entity.SHIPP_PROCESS
+	case entity.SHIPP_PICKUP:
+		statusShippig = entity.SHIPP_PICKUP
+	case entity.SHIPP_DELIVERY:
+		statusShippig = entity.SHIPP_DELIVERY
+	case entity.SHIPP_DELIVERED:
+		statusShippig = entity.SHIPP_DELIVERED
+	default:
+		return custErr.ErrShippingStatus
+	}
+
+	shipping, err := u.repoShipping.GetShippingById(request.ShippingId)
+	if err != nil {
+		return err
+	}
+
+	if shipping.Payment.PaymentStatus == entity.PAYMENT_PENDING {
+		return custErr.ErrShippingMustPaid
+	}
+
+	err = u.repoShipping.UpdateStatusShipping(request.ShippingId, statusShippig)
 	if err != nil {
 		return err
 	}

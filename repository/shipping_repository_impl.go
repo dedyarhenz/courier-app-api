@@ -149,6 +149,23 @@ func (r *ShippingRepositoryImpl) UpdateReviewByUserId(userId int, shippingId int
 	return nil
 }
 
+func (r *ShippingRepositoryImpl) UpdateStatusShipping(shippingId int, statusShipping string) error {
+	res := r.db.
+		Model(&entity.Shipping{}).
+		Where("id", shippingId).
+		UpdateColumn("status_shipping", statusShipping)
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return custErr.ErrShippingNotFound
+	}
+
+	return nil
+}
+
 func (r *ShippingRepositoryImpl) CountShippingByUserId(userId int, search string) int64 {
 	var totalShipping int64
 

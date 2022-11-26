@@ -23,6 +23,8 @@ var ErrMaxTopUp = errors.New("topup max Rp.10.000.000")
 var ErrMinAddOns = errors.New("min select 1 add on")
 var ErrAddOnInvalid = errors.New("add on id invalid")
 
+var ErrShippingMustPaid = errors.New("shipping must be paid first")
+var ErrShippingStatus = errors.New("status only: PROCESS, PICKUP, DELIVERY, DELIVERED")
 var ErrShippingReview = errors.New("send review after shipping done")
 var ErrShippingAlreadyPaid = errors.New("shipping has been paid")
 var ErrInsufficientBalance = errors.New("insufficient balance")
