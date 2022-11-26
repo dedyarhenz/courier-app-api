@@ -51,3 +51,18 @@ func (r *PromoUserRepositoryImpl) UpdatePromoUser(promo entity.PromoUser) (*enti
 
 	return &newPromoUser, nil
 }
+
+func (r *PromoUserRepositoryImpl) CreatePromoUser(promo entity.PromoUser) (*entity.PromoUser, error) {
+	newPromoUser := entity.PromoUser{
+		PromoId: promo.PromoId,
+		UserId:  promo.UserId,
+		IsUsed:  promo.IsUsed,
+	}
+
+	err := r.db.Omit("created_at", "updated_at", "deleted_at").Create(&newPromoUser).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &newPromoUser, nil
+}

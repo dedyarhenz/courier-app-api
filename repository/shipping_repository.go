@@ -8,6 +8,7 @@ type ShippingRepository interface {
 	GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error)
 	GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error)
 	CreateShipping(shipping entity.Shipping) (*entity.Shipping, error)
+	UpdateShipping(shipping entity.Shipping) (*entity.Shipping, error)
 	UpdateReviewByUserId(userId int, shippingId int, review string) error
 	UpdateStatusShipping(shippingId int, statusShipping string) error
 	CountShipping(search string) int64

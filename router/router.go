@@ -52,6 +52,9 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	)
 	shippingHandler := handler.NewShippingHandler(shippingUsecase)
 
+	gameUsecase := usecase.NewGameUsecaseImpl(promoRepository, promoUserRepository, shippingRepository)
+	gameHandler := handler.NewGameHandler(gameUsecase)
+
 	router.NoRoute(func(c *gin.Context) {
 		helper.ErrorResponse(c.Writer, "not found", 404)
 	})
@@ -113,6 +116,11 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 				{
 					payments.PUT("/:id", paymenthandler.PayUserShipping)
 				}
+			}
+
+			games := users.Group("games")
+			{
+				games.POST("/play", gameHandler.Play)
 			}
 		}
 

@@ -8,4 +8,5 @@ type PromoRepository interface {
 	CreatePromo(promo entity.Promo) (*entity.Promo, error)
 	UpdatePromo(promo entity.Promo) (*entity.Promo, error)
 	CountPromo(search string) int64
+	GetAllPromoGame() ([]entity.Promo, error)
 }

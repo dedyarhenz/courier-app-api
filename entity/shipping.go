@@ -21,6 +21,7 @@ type Shipping struct {
 	PaymentId      int             `gorm:"column:payment_id"`
 	StatusShipping string          `gorm:"column:status_shipping"`
 	Review         *string         `gorm:"column:review"`
+	IsPlayGame     bool            `gorm:"column:is_play_game"`
 	Size           *Size           `gorm:"foreignKey:SizeId;references:Id"`
 	Category       *Category       `gorm:"foreignKey:CategoryId;references:Id"`
 	Address        *Address        `gorm:"foreignKey:AddressId;references:Id"`

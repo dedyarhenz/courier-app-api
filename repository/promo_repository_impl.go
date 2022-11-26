@@ -3,6 +3,7 @@ package repository
 import (
 	"final-project-backend/entity"
 	custErr "final-project-backend/pkg/errors"
+	"time"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -98,4 +99,21 @@ func (r *PromoRepositoryImpl) CountPromo(search string) int64 {
 	r.db.Model(&entity.Promo{}).Where(`name ILIKE CONCAT('%',?,'%')`, search).Count(&totalPromo)
 
 	return totalPromo
+}
+
+func (r *PromoRepositoryImpl) GetAllPromoGame() ([]entity.Promo, error) {
+	var promos []entity.Promo
+
+	currentTime := time.Now()
+
+	err := r.db.
+		Where("quota > ?", 0).
+		Where("expire_date > ?", currentTime.Format("2006-01-02")).
+		Find(&promos).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return promos, nil
 }

@@ -32,3 +32,7 @@ var ErrPromoAlreadyUsed = errors.New("promo already used")
 var ErrPromoFeeInvalid = errors.New("promo promo fee invalid")
 var ErrQuotaOutOfStock = errors.New("quota out of stock")
 var ErrQuotaExpired = errors.New("quota expired")
+
+var ErrGameTransactionNotDone = errors.New("shipping and payment must be done first")
+var ErrGameMinTransaction = errors.New("transaction min Rp20.000")
+var ErrGameChanceUsed = errors.New("chance play game has been used")

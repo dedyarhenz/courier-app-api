@@ -189,3 +189,23 @@ func (r *ShippingRepositoryImpl) CountShipping(search string) int64 {
 
 	return totalShipping
 }
+
+func (r *ShippingRepositoryImpl) UpdateShipping(shipping entity.Shipping) (*entity.Shipping, error) {
+	var newShipping entity.Shipping
+
+	res := r.db.
+		Clauses(clause.Returning{}).
+		Model(&newShipping).
+		Where("id", shipping.Id).
+		Updates(shipping)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return nil, custErr.ErrShippingNotFound
+	}
+
+	return &newShipping, nil
+}
