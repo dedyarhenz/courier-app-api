@@ -8,6 +8,7 @@ type AddressRepository interface {
 	GetAddressByUserId(userId int, addressId int) (*entity.Address, error)
 	CreateAddress(address entity.Address) (*entity.Address, error)
 	UpdateAddressByUserId(address entity.Address) (*entity.Address, error)
+	DeleteAddressByUserId(userId int, addressId int) error
 	CountAddress(search string) int64
 	CountAddressByUserId(userId int, search string) int64
 }

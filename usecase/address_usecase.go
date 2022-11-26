@@ -10,4 +10,5 @@ type AddressUsecase interface {
 	GetAddressByUserId(userId int, addressId int) (*dto.AddressResponse, error)
 	CreateAddress(request dto.AddressCreateRequest) (*dto.AddressResponse, error)
 	UpdateAddressByUserId(request dto.AddressUpdateRequest) (*dto.AddressResponse, error)
+	DeleteAddressByUserId(userId int, addressId int) error
 }

@@ -157,3 +157,20 @@ func (h *AddressHandler) UpdateAddressByUserId(c *gin.Context) {
 
 	helper.SuccessResponse(c.Writer, resAddress, http.StatusOK)
 }
+
+func (h *AddressHandler) DeleteAddressByUserId(c *gin.Context) {
+	addressId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+	userId := c.GetInt("user_id")
+
+	err = h.usecase.DeleteAddressByUserId(userId, addressId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, nil, http.StatusOK)
+}

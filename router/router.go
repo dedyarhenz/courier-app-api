@@ -105,6 +105,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 				addresses.GET("/:id", addressHandler.GetAddressByUserId)
 				addresses.POST("/", addressHandler.CreateAddress)
 				addresses.PUT("/:id", addressHandler.UpdateAddressByUserId)
+				addresses.DELETE("/:id", addressHandler.DeleteAddressByUserId)
 			}
 
 			shippings := users.Group("shippings")

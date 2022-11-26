@@ -113,3 +113,12 @@ func (u *AddressUsecaseImpl) UpdateAddressByUserId(request dto.AddressUpdateRequ
 
 	return &resAddress, nil
 }
+
+func (u *AddressUsecaseImpl) DeleteAddressByUserId(userId int, addressId int) error {
+	err := u.repoAddress.DeleteAddressByUserId(userId, addressId)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -126,3 +126,17 @@ func (r *AddressRepositoryImpl) CountAddress(search string) int64 {
 
 	return totalAddress
 }
+
+func (r *AddressRepositoryImpl) DeleteAddressByUserId(userId int, addressId int) error {
+	res := r.db.Where("user_id = ?", userId).Where("id = ?", addressId).Delete(&entity.Address{})
+
+	if res.Error != nil {
+		return res.Error
+	}
+
+	if res.RowsAffected == 0 {
+		return custErr.ErrAddressNotFound
+	}
+
+	return nil
+}
