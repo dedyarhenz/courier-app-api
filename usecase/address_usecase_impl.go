@@ -20,7 +20,11 @@ func (u *AddressUsecaseImpl) GetAllAddress(page int, limit int, search string) (
 	orderAndSort := "created_at desc"
 	offset := (page * limit) - limit
 	totalData := u.repoAddress.CountAddress(search)
-	totalPage := totalData/int64(limit) + 1
+	totalPage := totalData / int64(limit)
+
+	if (totalData % int64(limit)) != 0 {
+		totalPage += 1
+	}
 
 	resAddressPaginate := dto.AddressPaginateResponse{
 		Page:      page,
@@ -45,7 +49,11 @@ func (u *AddressUsecaseImpl) GetAllAddressByUserId(userId int, page int, limit i
 	orderAndSort := "created_at desc"
 	offset := (page * limit) - limit
 	totalData := u.repoAddress.CountAddressByUserId(userId, search)
-	totalPage := totalData/int64(limit) + 1
+	totalPage := totalData / int64(limit)
+
+	if (totalData % int64(limit)) != 0 {
+		totalPage += 1
+	}
 
 	resAddressPaginate := dto.AddressPaginateResponse{
 		Page:      page,

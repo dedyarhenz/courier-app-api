@@ -44,7 +44,11 @@ func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string,
 	orderAndSort := fmt.Sprintf("%s %s", u.checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShipping(search)
-	totalPage := totalData/int64(limit) + 1
+	totalPage := totalData / int64(limit)
+
+	if (totalPage % int64(limit)) != 0 {
+		totalPage += 1
+	}
 
 	resShippingPaginate := dto.ShippingPaginateResponse{
 		Page:      page,
@@ -80,7 +84,11 @@ func (u *ShippingUsecaseImpl) GetAllShippingByUserId(userId int, page int, limit
 	orderAndSort := fmt.Sprintf("%s %s", u.checkOrderShipping(order), helper.CheckSortBy(sortBy))
 	offset := (page * limit) - limit
 	totalData := u.repoShipping.CountShippingByUserId(userId, search)
-	totalPage := totalData/int64(limit) + 1
+	totalPage := totalData / int64(limit)
+
+	if (totalData % int64(limit)) != 0 {
+		totalPage += 1
+	}
 
 	resShippingPaginate := dto.ShippingPaginateResponse{
 		Page:      page,

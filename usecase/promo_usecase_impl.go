@@ -23,7 +23,11 @@ func (u *PromoUsecaseImpl) GetAllPromo(page int, limit int, search string, order
 	orderAndSort := fmt.Sprintf("%s %s", checkOrderPromo(order), helper.CheckSortBy(sort))
 	offset := (page * limit) - limit
 	totalData := u.repoPromo.CountPromo(search)
-	totalPage := totalData/int64(limit) + 1
+	totalPage := totalData / int64(limit)
+
+	if (totalData % int64(limit)) != 0 {
+		totalPage += 1
+	}
 
 	resPromoPaginate := dto.PromoPaginateResponse{
 		Page:      page,
