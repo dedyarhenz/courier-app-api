@@ -13,7 +13,7 @@ type ShippingResponse struct {
 	Review         *string           `json:"review"`
 	Size           *SizeResponse     `json:"size"`
 	Category       *CategoryResponse `json:"category"`
-	Address        *AddressResponse  `json:"addres"`
+	Address        *AddressResponse  `json:"address"`
 	Payment        *PaymentResponse  `json:"payment"`
 	AddOns         []AddOnResponse   `json:"add_ons"`
 }
@@ -43,7 +43,7 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		payment = &res
 	}
 
-	var addOns []AddOnResponse
+	var addOns = []AddOnResponse{}
 	if shipping.AddOns != nil {
 		res := CreateAddOnListResponse(shipping.AddOns)
 		addOns = res
