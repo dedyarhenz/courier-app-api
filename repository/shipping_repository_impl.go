@@ -90,6 +90,10 @@ func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int, offset int, 
 			ON addresses.id = shippings.address_id 
 			AND addresses.user_id = ?
 		`, userId).
+		Joins(`
+			INNER JOIN payments 
+			ON payments.id = shippings.payment_id
+		`).
 		Preload("Address").
 		Preload("Size").
 		Preload("Category").

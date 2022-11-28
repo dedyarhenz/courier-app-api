@@ -2,6 +2,7 @@ package dto
 
 import (
 	"final-project-backend/entity"
+	"time"
 )
 
 type ShippingResponse struct {
@@ -11,6 +12,7 @@ type ShippingResponse struct {
 	AddressId      int               `json:"address_id"`
 	StatusShipping string            `json:"status_shipping"`
 	Review         *string           `json:"review"`
+	CreatedAt      time.Time         `json:"created_at"`
 	Size           *SizeResponse     `json:"size"`
 	Category       *CategoryResponse `json:"category"`
 	Address        *AddressResponse  `json:"address"`
@@ -55,6 +57,7 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		CategoryId:     shipping.CategoryId,
 		AddressId:      shipping.CategoryId,
 		StatusShipping: shipping.StatusShipping,
+		CreatedAt:      shipping.CreatedAt,
 		Review:         shipping.Review,
 		Size:           size,
 		Category:       category,

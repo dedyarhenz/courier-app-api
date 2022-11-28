@@ -254,7 +254,7 @@ func (u *ShippingUsecaseImpl) checkOrderShipping(order string) string {
 	case "size":
 		order = "size_id"
 	case "payment":
-		order = "payment_id"
+		order = "payments.total_cost"
 	case "status":
 		order = "status_shipping"
 	default:
