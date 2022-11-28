@@ -119,7 +119,7 @@ func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int, shippingId int)
 		Preload("Address").
 		Preload("Size").
 		Preload("Category").
-		Preload("Payment").
+		Preload("Payment.Promo").
 		Preload("AddOns").
 		Where("shippings.id", shippingId).
 		First(&shipping).Error

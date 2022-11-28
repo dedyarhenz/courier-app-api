@@ -16,6 +16,7 @@ type Payment struct {
 	PaymentStatus string         `gorm:"column:payment_status"`
 	TotalCost     int            `gorm:"column:total_cost"`
 	PromoId       *int           `gorm:"column:promo_id"`
+	Promo         *Promo         `gorm:"foreignKey:PromoId;references:Id"`
 	Shipping      *Shipping      `gorm:"foreignKey:PaymentId;references:Id"`
 	CreatedAt     time.Time      `gorm:"column:created_at"`
 	UpdatedAt     time.Time      `gorm:"column:updated_at"`

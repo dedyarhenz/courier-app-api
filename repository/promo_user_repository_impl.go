@@ -69,7 +69,7 @@ func (r *PromoUserRepositoryImpl) CreatePromoUser(promo entity.PromoUser) (*enti
 
 func (r *PromoUserRepositoryImpl) GetAllPromoUserByUserId(userId int) ([]entity.PromoUser, error) {
 	var promoUsers []entity.PromoUser
-	err := r.db.Unscoped().Preload("Promo").Where("user_id", userId).Find(&promoUsers).Error
+	err := r.db.Unscoped().Preload("Promo").Where("is_used", false).Where("user_id", userId).Find(&promoUsers).Error
 	if err != nil {
 
 		return nil, err
