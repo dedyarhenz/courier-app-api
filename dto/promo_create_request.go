@@ -6,5 +6,5 @@ type PromoCreateRequest struct {
 	Discount    int    `json:"discount" binding:"required,numeric"`
 	MaxDiscount int    `json:"max_discount" binding:"required,numeric"`
 	Quota       int    `json:"quota" binding:"required,numeric"`
-	ExpireDate  string `json:"expire_date" binding:"required,datetime=2006-01-02"`
+	ExpireDate  string `json:"expire_date" binding:"required,datetime=2006-01-02T15:04:05"`
 }

@@ -60,7 +60,7 @@ func (u *PromoUsecaseImpl) GetPromoById(promoId int) (*dto.PromoResponse, error)
 }
 
 func (u *PromoUsecaseImpl) CreatePromo(request dto.PromoCreateRequest) (*dto.PromoResponse, error) {
-	expireDate, err := time.Parse("2006-01-02", request.ExpireDate)
+	expireDate, err := time.Parse("2006-01-02T15:04:05", request.ExpireDate)
 	if err != nil {
 		return nil, err
 	}
