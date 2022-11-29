@@ -51,6 +51,22 @@ func (h *PromoHandler) GetAllPromo(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resAllPromo, http.StatusOK)
 }
 
+func (h *PromoHandler) GetPromoById(c *gin.Context) {
+	promoId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	resPromo, err := h.usecase.GetPromoById(promoId)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resPromo, http.StatusOK)
+}
+
 func (h *PromoHandler) CreatePromo(c *gin.Context) {
 	var reqPromo dto.PromoCreateRequest
 

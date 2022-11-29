@@ -88,6 +88,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 		{
 			promos.Use(middleware.CheckAuth(), middleware.AdminAccess())
 			promos.GET("/", promoHandler.GetAllPromo)
+			promos.GET("/:id", promoHandler.GetPromoById)
 			promos.POST("/", promoHandler.CreatePromo)
 			promos.PUT("/:id", promoHandler.UpdatePromo)
 		}
