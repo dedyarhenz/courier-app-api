@@ -41,7 +41,9 @@ func (r *ShippingRepositoryImpl) GetAllShipping(offset int, limit int, search st
 	var shippings []entity.Shipping
 
 	err := r.db.
-		Preload("Address").
+		Preload("Address", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		}).
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
@@ -62,7 +64,9 @@ func (r *ShippingRepositoryImpl) GetShippingById(shippingId int) (*entity.Shippi
 	var shipping entity.Shipping
 
 	err := r.db.
-		Preload("Address").
+		Preload("Address", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		}).
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
@@ -94,7 +98,9 @@ func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int, offset int, 
 			INNER JOIN payments 
 			ON payments.id = shippings.payment_id
 		`).
-		Preload("Address").
+		Preload("Address", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		}).
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
@@ -116,7 +122,9 @@ func (r *ShippingRepositoryImpl) GetShippingByUserId(userId int, shippingId int)
 
 	err := r.db.
 		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
-		Preload("Address").
+		Preload("Address", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		}).
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment.Promo").
