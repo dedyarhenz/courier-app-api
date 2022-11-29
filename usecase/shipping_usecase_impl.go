@@ -126,7 +126,15 @@ func (u *ShippingUsecaseImpl) UpdateReviewByUserId(request dto.ShippingReviewReq
 		return err
 	}
 
+	if shipping.Review != nil {
+		return custErr.ErrShippingAlreadyReview
+	}
+
 	if shipping.StatusShipping != entity.SHIPP_DELIVERED {
+		return custErr.ErrShippingReview
+	}
+
+	if shipping.Payment.PaymentStatus != entity.PAYMENT_SUCCESS {
 		return custErr.ErrShippingReview
 	}
 
