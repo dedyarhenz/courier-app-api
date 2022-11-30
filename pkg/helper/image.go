@@ -2,6 +2,9 @@ package helper
 
 import (
 	"context"
+	"fmt"
+	"mime/multipart"
+	"net/http"
 	"time"
 
 	"github.com/cloudinary/cloudinary-go"
@@ -23,4 +26,26 @@ func ImageUploadHelper(input interface{}) (string, error) {
 		return "", err
 	}
 	return uploadParam.SecureURL, nil
+}
+
+func ValidateImage(file multipart.File) error {
+	buff := make([]byte, 512)
+	if _, err := file.Read(buff); err != nil {
+		return err
+	}
+
+	filetype := http.DetectContentType(buff)
+
+	switch filetype {
+	case "image/jpeg", "image/jpg":
+		return nil
+	case "image/gif":
+		return nil
+	case "image/png":
+		return nil
+	case "application/pdf":
+		return nil
+	default:
+		return fmt.Errorf("uknown file")
+	}
 }

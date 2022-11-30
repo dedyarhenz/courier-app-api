@@ -35,9 +35,13 @@ func (u *UserUsecaseImpl) UpdateUserById(request dto.UserUpdateRequest) (*dto.Us
 		return nil, custErr.ErrEmailAlready
 	}
 
-	photoUrl, err := helper.ImageUploadHelper(request.Photo)
-	if err != nil {
-		return nil, err
+	var photoUrl string
+	var err error
+	if request.Photo != nil {
+		photoUrl, err = helper.ImageUploadHelper(request.Photo)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	user := entity.User{

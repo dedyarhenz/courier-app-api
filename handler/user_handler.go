@@ -54,7 +54,10 @@ func (h *UserHandler) UpdateUserById(c *gin.Context) {
 
 	file, _, err := c.Request.FormFile("photo")
 	if err != nil {
-		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		if err != http.ErrMissingFile {
+			helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+			return
+		}
 	}
 
 	reqUser.Photo = file
