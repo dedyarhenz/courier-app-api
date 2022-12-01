@@ -42,10 +42,6 @@ func (u *GameUsecaseImpl) Play(request dto.GamePlayRequest) (*dto.GameResponse, 
 		return nil, custErr.ErrGameTransactionNotDone
 	}
 
-	if shipping.Payment.TotalCost < 20000 {
-		return nil, custErr.ErrGameMinTransaction
-	}
-
 	if shipping.IsPlayGame {
 		return nil, custErr.ErrGameChanceUsed
 	}
