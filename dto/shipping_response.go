@@ -12,6 +12,7 @@ type ShippingResponse struct {
 	AddressId      int               `json:"address_id"`
 	StatusShipping string            `json:"status_shipping"`
 	Review         *string           `json:"review"`
+	IsPlayGame     bool              `json:"is_play_game"`
 	CreatedAt      time.Time         `json:"created_at"`
 	Size           *SizeResponse     `json:"size"`
 	Category       *CategoryResponse `json:"category"`
@@ -59,6 +60,7 @@ func CreateShippingResponse(shipping entity.Shipping) ShippingResponse {
 		StatusShipping: shipping.StatusShipping,
 		CreatedAt:      shipping.CreatedAt,
 		Review:         shipping.Review,
+		IsPlayGame:     shipping.IsPlayGame,
 		Size:           size,
 		Category:       category,
 		Address:        address,
