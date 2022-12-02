@@ -8,6 +8,7 @@ import (
 	"final-project-backend/repository"
 	"fmt"
 	"strings"
+	"time"
 )
 
 type ShippingUsecaseImpl struct {
@@ -67,6 +68,42 @@ func (u *ShippingUsecaseImpl) GetAllShipping(page int, limit int, search string,
 	resShippingPaginate.Data = resShippings
 
 	return resShippingPaginate, nil
+}
+
+func (u *ShippingUsecaseImpl) GetAllReportShippingByDate(month int, year int, page int, limit int, sortBy string) (dto.ShippingReportPaginateResponse, error) {
+	startDate := time.Date(year, time.Month(month), 01, 0, 0, 0, 0, time.UTC).Format("2006-01-02")
+	endDate := time.Date(year, time.Month(month), 31, 0, 0, 0, 0, time.UTC).Format("2006-01-02")
+
+	orderAndSort := fmt.Sprintf("%s %s", "created_at", helper.CheckSortBy(sortBy))
+	offset := (page * limit) - limit
+	totalData := u.repoShipping.CountShippingByDate(startDate, endDate)
+	totalPage := totalData / int64(limit)
+
+	if (totalPage % int64(limit)) != 0 {
+		totalPage += 1
+	}
+
+	resShippingReportPaginate := dto.ShippingReportPaginateResponse{
+		Page:           page,
+		Limit:          limit,
+		Totaldata:      int(totalData),
+		TotalPage:      int(totalPage),
+		TotalCostMonth: 0,
+		Data:           []dto.ShippingResponse{},
+	}
+
+	shippings, err := u.repoShipping.GetAllReportShippingByDate(startDate, endDate, offset, limit, orderAndSort)
+	if err != nil {
+		return resShippingReportPaginate, err
+	}
+
+	totalCostMonth := u.repoPayment.TotalCostPaymentByDate(startDate, endDate)
+
+	resShippings := dto.CreateShippingListResponse(shippings)
+	resShippingReportPaginate.Data = resShippings
+	resShippingReportPaginate.TotalCostMonth = int(totalCostMonth)
+
+	return resShippingReportPaginate, nil
 }
 
 func (u *ShippingUsecaseImpl) GetShippingById(shippingId int) (*dto.ShippingResponse, error) {
@@ -145,6 +182,7 @@ func (u *ShippingUsecaseImpl) UpdateReviewByUserId(request dto.ShippingReviewReq
 
 	return nil
 }
+
 func (u *ShippingUsecaseImpl) UpdateStatusShipping(request dto.ShippingUpdateStatusRequest) error {
 	var statusShippig string
 

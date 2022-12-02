@@ -221,3 +221,38 @@ func (r *ShippingRepositoryImpl) UpdateShipping(shipping entity.Shipping) (*enti
 
 	return &newShipping, nil
 }
+
+func (r *ShippingRepositoryImpl) GetAllReportShippingByDate(startDate string, endDate string, offset int, limit int, orderAndSort string) ([]entity.Shipping, error) {
+	var shippings []entity.Shipping
+
+	err := r.db.
+		Preload("Address", func(db *gorm.DB) *gorm.DB {
+			return db.Unscoped()
+		}).
+		Preload("Size").
+		Preload("Category").
+		Preload("Payment").
+		Where("created_at >= ?", startDate).
+		Where("created_at <= ?", endDate).
+		Offset(offset).
+		Limit(limit).
+		Order(orderAndSort).
+		Find(&shippings).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return shippings, nil
+}
+
+func (r *ShippingRepositoryImpl) CountShippingByDate(startDate string, endDate string) int64 {
+	var totalShipping int64
+
+	r.db.Model(&entity.Shipping{}).
+		Where("created_at >= ?", startDate).
+		Where("created_at <= ?", endDate).
+		Count(&totalShipping)
+
+	return totalShipping
+}

@@ -80,6 +80,46 @@ func (h *ShippingHandler) GetAllShipping(c *gin.Context) {
 	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
 }
 
+func (h *ShippingHandler) GetAllReportShippingByDate(c *gin.Context) {
+	month := c.DefaultQuery("month", "01")
+	year := c.DefaultQuery("year", "2022")
+	limit := c.DefaultQuery("limit", "10")
+	page := c.DefaultQuery("page", "1")
+	sortBy := c.DefaultQuery("sortBy", "desc")
+
+	lim, err := strconv.Atoi(limit)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	pag, err := strconv.Atoi(page)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	m, err := strconv.Atoi(month)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	y, err := strconv.Atoi(year)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+		return
+	}
+
+	resShippings, err := h.usecase.GetAllReportShippingByDate(m, y, pag, lim, sortBy)
+	if err != nil {
+		helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	helper.SuccessResponse(c.Writer, resShippings, http.StatusOK)
+}
+
 func (h *ShippingHandler) GetShippingById(c *gin.Context) {
 	shippingId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

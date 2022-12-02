@@ -83,3 +83,17 @@ func (r *PaymentRepositoryImpl) TotalCostPaymentSuccessUser(userId int, paymentI
 
 	return total
 }
+
+func (r *PaymentRepositoryImpl) TotalCostPaymentByDate(startDate string, endDate string) int64 {
+	var total int64
+
+	r.db.
+		Table("payments").
+		Select("sum(total_cost)").
+		Where("payments.payment_status", "SUCCESS").
+		Where("created_at >= ?", startDate).
+		Where("created_at <= ?", endDate).
+		Scan(&total)
+
+	return total
+}

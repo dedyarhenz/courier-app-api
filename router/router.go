@@ -80,6 +80,7 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 		{
 			shippings.Use(middleware.CheckAuth(), middleware.AdminAccess())
 			shippings.GET("/", shippingHandler.GetAllShipping)
+			shippings.GET("/report", shippingHandler.GetAllReportShippingByDate)
 			shippings.GET("/:id", shippingHandler.GetShippingById)
 			shippings.PUT("/:id/status", shippingHandler.UpdateStatusShipping)
 		}
@@ -95,9 +96,11 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 
 		users := v1.Group("users")
 		{
-			users.Use(middleware.CheckAuth(), middleware.UserAccess())
+			users.Use(middleware.CheckAuth())
 			users.GET("/", userHandler.GetUserById)
 			users.PUT("/", userHandler.UpdateUserById)
+
+			users.Use(middleware.UserAccess())
 			users.POST("/top-up", userHandler.TopUp)
 
 			addresses := users.Group("addresses")
