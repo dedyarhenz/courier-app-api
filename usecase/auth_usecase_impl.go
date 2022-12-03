@@ -50,12 +50,13 @@ func (u *AuthUsecaseImp) Register(request dto.UserRegisterRequest) (*dto.UserReg
 		return nil, err
 	}
 
-	var userReff *entity.User
+	var reffId *int
 	if request.RefferalCode != "" {
-		userReff, err = u.repoUser.GetUserByRefferalCode(request.RefferalCode)
+		userReff, err := u.repoUser.GetUserByRefferalCode(request.RefferalCode)
 		if err != nil {
 			return nil, err
 		}
+		reffId = &userReff.Id
 	}
 
 	userNew := entity.User{
@@ -66,7 +67,7 @@ func (u *AuthUsecaseImp) Register(request dto.UserRegisterRequest) (*dto.UserReg
 		Role:           entity.UserRole,
 		Balance:        0,
 		RefferalCode:   randomString(8),
-		RefferedUserId: &userReff.Id,
+		RefferedUserId: reffId,
 	}
 
 	user, err := u.repoUser.CreateUser(userNew)

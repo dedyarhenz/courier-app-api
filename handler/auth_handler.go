@@ -67,7 +67,7 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			helper.ErrorResponse(c.Writer, custErr.ErrInvalidRequest.Error(), http.StatusBadRequest)
+			helper.ErrorResponse(c.Writer, err.Error(), http.StatusBadRequest)
 			return
 		}
 
