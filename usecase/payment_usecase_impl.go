@@ -89,7 +89,7 @@ func (u *PaymentUsecaseImpl) PayUserShipping(request dto.PaymentPayRequest) (*dt
 		return nil, err
 	}
 
-	totalCostPaymentSuccess := u.repoPayment.TotalCostPaymentSuccessUser(request.UserId, request.PaymentId)
+	totalCostPaymentSuccess := u.repoPayment.TotalCostPaymentSuccessUser(request.UserId)
 
 	if totalCostPaymentSuccess >= 350000 && user.RefferedUserId != nil && !user.IsBonusComplete {
 		_, err = u.repoUser.AddBalance(request.UserId, 50000)

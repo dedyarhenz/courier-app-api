@@ -69,7 +69,7 @@ func (r *PaymentRepositoryImpl) UpdatePayment(payment entity.Payment) (*entity.P
 	return &newPayment, nil
 }
 
-func (r *PaymentRepositoryImpl) TotalCostPaymentSuccessUser(userId int, paymentId int) int64 {
+func (r *PaymentRepositoryImpl) TotalCostPaymentSuccessUser(userId int) int64 {
 	var total int64
 
 	r.db.
@@ -78,7 +78,6 @@ func (r *PaymentRepositoryImpl) TotalCostPaymentSuccessUser(userId int, paymentI
 		Joins("INNER JOIN shippings ON shippings.payment_id = payments.id").
 		Joins("INNER JOIN addresses ON addresses.id = shippings.address_id AND addresses.user_id = ?", userId).
 		Where("payments.payment_status", "SUCCESS").
-		Where("payments.id = ?", paymentId).
 		Scan(&total)
 
 	return total
