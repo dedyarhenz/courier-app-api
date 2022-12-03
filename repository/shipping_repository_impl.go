@@ -226,14 +226,19 @@ func (r *ShippingRepositoryImpl) GetAllReportShippingByDate(startDate string, en
 	var shippings []entity.Shipping
 
 	err := r.db.
+		Joins(`
+			INNER JOIN payments 
+			ON payments.id = shippings.payment_id
+			AND payments.payment_status = 'SUCCESS'
+		`).
 		Preload("Address", func(db *gorm.DB) *gorm.DB {
 			return db.Unscoped()
 		}).
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
-		Where("created_at >= ?", startDate).
-		Where("created_at <= ?", endDate).
+		Where("shippings.created_at >= ?", startDate).
+		Where("shippings.created_at <= ?", endDate).
 		Offset(offset).
 		Limit(limit).
 		Order(orderAndSort).
