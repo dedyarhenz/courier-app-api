@@ -3,8 +3,9 @@ package dto
 import "final-project-backend/entity"
 
 type PromoUserResponse struct {
-	Id    int            `json:"id"`
-	Promo *PromoResponse `json:"promo"`
+	Id     int            `json:"id"`
+	IsUsed bool           `json:"is_used"`
+	Promo  *PromoResponse `json:"promo"`
 }
 
 func CreatePromoUserResponse(promoUser entity.PromoUser) PromoUserResponse {
