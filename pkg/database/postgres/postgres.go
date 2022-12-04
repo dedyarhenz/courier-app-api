@@ -14,7 +14,7 @@ import (
 
 func New(config *config.Config) *gorm.DB {
 	dbConfig := config.Database
-	dsn := fmt.Sprintf("user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", dbConfig.User, dbConfig.Password, dbConfig.DbName, dbConfig.Port)
+	dsn := fmt.Sprintf("user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta", dbConfig.User, dbConfig.Password, dbConfig.DbName, dbConfig.Port)
 
 	newLogger := logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags),
