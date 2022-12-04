@@ -57,6 +57,8 @@ func RouterSetUp(router *gin.Engine, db *gorm.DB) {
 	gameUsecase := usecase.NewGameUsecaseImpl(promoRepository, promoUserRepository, shippingRepository)
 	gameHandler := handler.NewGameHandler(gameUsecase)
 
+	router.Static("/docs", "./dist")
+
 	router.NoRoute(func(c *gin.Context) {
 		helper.ErrorResponse(c.Writer, "not found", 404)
 	})

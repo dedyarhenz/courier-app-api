@@ -1,0 +1,3607 @@
+openapi: 3.0.0
+info:
+  title: final-project-courier
+  version: 1.0.0
+servers:
+  - url: lhttp://localhost:8080
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: auth
+  - name: admin access
+  - name: admin access > address
+  - name: admin access > shipping
+  - name: admin access > promo
+  - name: user access
+  - name: user access > address
+  - name: user access > size
+  - name: user access > category
+  - name: user access > add on
+  - name: user access > user
+  - name: user access > shipping
+  - name: user access > payment
+  - name: user access > game
+  - name: user access > promo
+paths:
+  /v1/auth/login:
+    post:
+      tags:
+        - auth
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: user1@gmail.com
+                password: '123456'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:20:09 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '242'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: login
+                  value:
+                    code: 201
+                    message: success
+                    data:
+                      token: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJyb2xlIjoiVVNFUiIsImlzcyI6IkNvdXJpZXIgQXBwIiwiZXhwIjoxNjcwMTkyNDA5LCJpYXQiOjE2NzAxODg4MDl9.9gH41vAz_BwU3DvsJ-uxIEzHAiGSYdwuiaG-0buRw88
+                example-1:
+                  summary: login
+                  value:
+                    code: 201
+                    message: success
+                    data:
+                      token: >-
+                        eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJyb2xlIjoiQURNSU4iLCJpc3MiOiJDb3VyaWVyIEFwcCIsImV4cCI6MTY3MDE5MjQ0OCwiaWF0IjoxNjcwMTg4ODQ4fQ.UATEN1SQJLw5xJDMueWg0adRCMU6BwIOMJ5Vlzrzv9w
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:22:09 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '49'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: wrong email or password
+  /v1/auth/register:
+    post:
+      tags:
+        - auth
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                full_name: dedy irawan
+                email: dedyir@gmail.com
+                password: '123456'
+                phone: '12345678'
+                refferal_code: ''
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:23:21 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '141'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 201
+                message: success
+                data:
+                  email: dedyir@gmail.com
+                  full_name: dedy irawan
+                  phone: '12345678'
+                  refferal_code: YozrYrZk
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:24:01 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: register
+                  value:
+                    code: 400
+                    message: email already exist
+                example-1:
+                  summary: register
+                  value:
+                    code: 400
+                    message: refferal code invalid
+  /v1/addresses:
+    get:
+      tags:
+        - admin access > address
+      summary: get all address
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: only search full address
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:28:55 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1094'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 2
+                  total_data: 11
+                  data:
+                    - id: 13
+                      recipient_name: qwerty
+                      full_address: jl.indonesia
+                      recipient_phone: '089765345'
+                      user_id: 3
+                    - id: 8
+                      recipient_name: m
+                      full_address: mnmn
+                      recipient_phone: '77'
+                      user_id: 4
+                    - id: 6
+                      recipient_name: tes
+                      full_address: zxczx
+                      recipient_phone: '12312'
+                      user_id: 4
+                    - id: 12
+                      recipient_name: z cz
+                      full_address: kajsd
+                      recipient_phone: '28374'
+                      user_id: 4
+                    - id: 10
+                      recipient_name: ansamsnd
+                      full_address: ladkalsda
+                      recipient_phone: '91283918'
+                      user_id: 4
+                    - id: 9
+                      recipient_name: testt
+                      full_address: asdasd
+                      recipient_phone: '128319328'
+                      user_id: 4
+                    - id: 7
+                      recipient_name: tes name
+                      full_address: tes add
+                      recipient_phone: '32423'
+                      user_id: 4
+                    - id: 5
+                      recipient_name: bio
+                      full_address: jalan kepatihan
+                      recipient_phone: '876'
+                      user_id: 5
+                    - id: 4
+                      recipient_name: qwertyu
+                      full_address: 'surabaya '
+                      recipient_phone: '9808098'
+                      user_id: 4
+                    - id: 3
+                      recipient_name: weru
+                      full_address: akjsdkans
+                      recipient_phone: '998879'
+                      user_id: 2
+  /v1/shippings:
+    get:
+      tags:
+        - admin access > shipping
+      summary: get all shipping
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: only search status shipping
+        - name: order
+          in: query
+          schema:
+            type: string
+          description: date, category, size, payment, status
+          example: date
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+          example: desc
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:32:53 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 2
+                  total_data: 18
+                  data:
+                    - id: 18
+                      size_id: 3
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-05T04:57:47.793469Z'
+                      size:
+                        id: 3
+                        name: Small
+                        description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                        price: 75000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 13
+                        recipient_name: qwerty
+                        full_address: jl.indonesia
+                        recipient_phone: '089765345'
+                        user_id: 3
+                      payment:
+                        id: 46
+                        payment_status: SUCCESS
+                        total_cost: 165000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+                    - id: 17
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-05T04:49:41.595111Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 13
+                        recipient_name: qwerty
+                        full_address: jl.indonesia
+                        recipient_phone: '089765345'
+                        user_id: 3
+                      payment:
+                        id: 45
+                        payment_status: PENDING
+                        total_cost: 265000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+                    - id: 16
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T02:31:19.052869Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 10
+                        recipient_name: ansamsnd
+                        full_address: ladkalsda
+                        recipient_phone: '91283918'
+                        user_id: 4
+                      payment:
+                        id: 16
+                        payment_status: PENDING
+                        total_cost: 180000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                    - id: 14
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:26:21.874696Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 14
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 13
+                      size_id: 3
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:24:44.073905Z'
+                      size:
+                        id: 3
+                        name: Small
+                        description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                        price: 75000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 13
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                    - id: 12
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:23:24.694957Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 12
+                        payment_status: SUCCESS
+                        total_cost: 250000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 11
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:16:05.798882Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 11
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 10
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:11:30.005099Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 10
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 9
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:07:51.668698Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 9
+                        payment_status: SUCCESS
+                        total_cost: 200000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 8
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T00:59:16.983698Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 8
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+  /v1/shippings/report:
+    get:
+      tags:
+        - admin access > shipping
+      summary: get all report shipping
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: integer
+          example: '12'
+        - name: year
+          in: query
+          schema:
+            type: integer
+          example: '2022'
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: sortBy
+          in: query
+          schema:
+            type: string
+          example: desc
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:37:38 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 2
+                  total_data: 18
+                  total_cost_month: 2770000
+                  data:
+                    - id: 18
+                      size_id: 3
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-05T04:57:47.793469Z'
+                      size:
+                        id: 3
+                        name: Small
+                        description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                        price: 75000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 13
+                        recipient_name: qwerty
+                        full_address: jl.indonesia
+                        recipient_phone: '089765345'
+                        user_id: 3
+                      payment:
+                        id: 46
+                        payment_status: SUCCESS
+                        total_cost: 165000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+                    - id: 14
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:26:21.874696Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 14
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 13
+                      size_id: 3
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:24:44.073905Z'
+                      size:
+                        id: 3
+                        name: Small
+                        description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                        price: 75000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 13
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                    - id: 12
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:23:24.694957Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 5
+                        recipient_name: bio
+                        full_address: jalan kepatihan
+                        recipient_phone: '876'
+                        user_id: 5
+                      payment:
+                        id: 12
+                        payment_status: SUCCESS
+                        total_cost: 250000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 11
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:16:05.798882Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 11
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 10
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:11:30.005099Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 10
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 9
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T01:07:51.668698Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 9
+                        payment_status: SUCCESS
+                        total_cost: 200000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 8
+                      size_id: 2
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T00:59:16.983698Z'
+                      size:
+                        id: 2
+                        name: Medium
+                        description: >-
+                          25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT
+                          <= 3kg
+                        price: 100000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 8
+                        payment_status: SUCCESS
+                        total_cost: 150000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                    - id: 7
+                      size_id: 1
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T00:57:18.63323Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 7
+                        payment_status: SUCCESS
+                        total_cost: 260000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+                    - id: 6
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-04T00:54:47.584594Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 4
+                        recipient_name: qwertyu
+                        full_address: 'surabaya '
+                        recipient_phone: '9808098'
+                        user_id: 4
+                      payment:
+                        id: 6
+                        payment_status: SUCCESS
+                        total_cost: 265000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+  /v1/shippings/18:
+    get:
+      tags:
+        - admin access > shipping
+      summary: get shipping by id
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:38:22 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '830'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 18
+                  size_id: 3
+                  category_id: 2
+                  address_id: 2
+                  status_shipping: PROCESS
+                  review: null
+                  is_play_game: false
+                  created_at: '2022-12-05T04:57:47.793469Z'
+                  size:
+                    id: 3
+                    name: Small
+                    description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                    price: 75000
+                  category:
+                    id: 2
+                    name: Fragile
+                    description: Send your fragile package safely with us
+                    price: 25000
+                  address:
+                    id: 13
+                    recipient_name: qwerty
+                    full_address: jl.indonesia
+                    recipient_phone: '089765345'
+                    user_id: 3
+                  payment:
+                    id: 46
+                    payment_status: SUCCESS
+                    total_cost: 165000
+                    promo_id: null
+                    promo: null
+                  add_ons:
+                    - id: 1
+                      name: Safe package
+                      description: Add more protection for your package
+                      price: 50000
+                    - id: 3
+                      name: Heatkeeper
+                      description: Keep your food or drink warm
+                      price: 15000
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:38:41 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '44'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: shipping not found
+  /v1/shippings/18/status:
+    put:
+      tags:
+        - admin access > shipping
+      summary: update status shipping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                status_shipping: DELIVERED
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:39:56 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '33'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:39:32 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '75'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: 'status only: PROCESS, PICKUP, DELIVERY, DELIVERED'
+  /v1/promos:
+    get:
+      tags:
+        - admin access > promo
+      summary: get all promo
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: order
+          in: query
+          schema:
+            type: string
+          description: expired, quota
+          example: expired
+        - name: sortB
+          in: query
+          schema:
+            type: string
+          example: desc
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:42:24 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1373'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 3
+                  total_data: 29
+                  data:
+                    - id: 4
+                      name: tesu
+                      min_fee: 100001
+                      discount: 31
+                      max_discount: 30000
+                      quota: 7
+                      expire_date: '2022-12-31T11:45:00Z'
+                    - id: 5
+                      name: tes promo
+                      min_fee: 10
+                      discount: 5
+                      max_discount: 10
+                      quota: 22
+                      expire_date: '2022-12-14T22:16:00Z'
+                    - id: 3
+                      name: Promo 3
+                      min_fee: 20000
+                      discount: 80
+                      max_discount: 15000
+                      quota: 8
+                      expire_date: '2022-12-13T20:59:53.298Z'
+                    - id: 18
+                      name: Promo 3
+                      min_fee: 20000
+                      discount: 80
+                      max_discount: 15000
+                      quota: 8
+                      expire_date: '2022-12-13T20:59:53.298Z'
+                    - id: 10
+                      name: Promo 3
+                      min_fee: 20000
+                      discount: 80
+                      max_discount: 15000
+                      quota: 8
+                      expire_date: '2022-12-13T20:59:53.298Z'
+                    - id: 29
+                      name: Promo 3
+                      min_fee: 20000
+                      discount: 80
+                      max_discount: 15000
+                      quota: 7
+                      expire_date: '2022-12-13T20:59:53.298Z'
+                    - id: 28
+                      name: Promo 2
+                      min_fee: 20000
+                      discount: 60
+                      max_discount: 15000
+                      quota: 6
+                      expire_date: '2022-12-13T15:59:53.298Z'
+                    - id: 2
+                      name: Promo 2
+                      min_fee: 20000
+                      discount: 60
+                      max_discount: 15000
+                      quota: 6
+                      expire_date: '2022-12-13T15:59:53.298Z'
+                    - id: 17
+                      name: Promo 2
+                      min_fee: 20000
+                      discount: 60
+                      max_discount: 15000
+                      quota: 6
+                      expire_date: '2022-12-13T15:59:53.298Z'
+                    - id: 9
+                      name: Promo 2
+                      min_fee: 20000
+                      discount: 60
+                      max_discount: 15000
+                      quota: 6
+                      expire_date: '2022-12-13T15:59:53.298Z'
+    post:
+      tags:
+        - admin access > promo
+      summary: create promo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: promo tes
+                min_fee: 100000
+                discount: 40
+                max_discount: 20000
+                quota: 1
+                expire_date: '2023-01-04T09:10:00'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:45:18 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '168'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 201
+                message: success
+                data:
+                  id: 30
+                  name: promo tes
+                  min_fee: 100000
+                  discount: 40
+                  max_discount: 20000
+                  quota: 1
+                  expire_date: '2023-01-04T09:10:00Z'
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:45:45 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '61'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: Error field Name condition required
+  /v1/promos/1:
+    get:
+      tags:
+        - admin access > promo
+      summary: get promo
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:43:21 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '168'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 1
+                  name: Promo 1
+                  min_fee: 20000
+                  discount: 40
+                  max_discount: 15000
+                  quota: 4
+                  expire_date: '2022-10-13T13:59:53.298Z'
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:43:56 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '41'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: promo not found
+  /v1/promos/300:
+    put:
+      tags:
+        - admin access > promo
+      summary: update promo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: promo update
+                min_fee: 100000
+                discount: 40
+                max_discount: 20000
+                quota: 1
+                expire_date: '2023-01-04T09:19:00'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:47:34 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '171'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 201
+                message: success
+                data:
+                  id: 30
+                  name: promo update
+                  min_fee: 100000
+                  discount: 40
+                  max_discount: 20000
+                  quota: 1
+                  expire_date: '2023-01-04T09:19:00Z'
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:47:49 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '41'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: promo not found
+  /v1/users/addresses:
+    get:
+      tags:
+        - user access > address
+      summary: get all address user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:30:01 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '317'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 1
+                  total_data: 2
+                  data:
+                    - id: 14
+                      recipient_name: qwerty
+                      full_address: jl.merdeka
+                      recipient_phone: '08976533434'
+                      user_id: 3
+                    - id: 13
+                      recipient_name: qwerty
+                      full_address: jl.indonesia
+                      recipient_phone: '089765345'
+                      user_id: 3
+    post:
+      tags:
+        - user access > address
+      summary: create address user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                recipient_name: qwerty
+                full_address: jl.merdeka
+                recipient_phone: '08976533434'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:27:25 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '148'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 201
+                message: success
+                data:
+                  id: 13
+                  recipient_name: qwerty
+                  full_address: jl.indonesia
+                  recipient_phone: '089765345'
+                  user_id: 3
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:27:59 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '70'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: Error field RecipientName condition required
+  /v1/users/addresses/16:
+    put:
+      tags:
+        - user access > address
+      summary: update address user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                recipient_name: budi
+                full_address: jl.surabaya
+                recipient_phone: '089765345'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:31:08 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '145'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 14
+                  recipient_name: budi
+                  full_address: jl.surabaya
+                  recipient_phone: '089765345'
+                  user_id: 3
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:31:27 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '43'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: address not found
+  /v1/users/addresses/15:
+    delete:
+      tags:
+        - user access > address
+      summary: delete address user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:32:02 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '33'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:32:20 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '43'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: address not found
+  /v1/sizes:
+    get:
+      tags:
+        - user access > size
+      summary: get all size
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:32:49 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '385'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  - id: 1
+                    name: Large
+                    description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                    price: 150000
+                  - id: 2
+                    name: Medium
+                    description: >-
+                      25x25x25 cm < VOLUME <= 50x50x50 cm OR 2 kg < WEIGHT <=
+                      3kg
+                    price: 100000
+                  - id: 3
+                    name: Small
+                    description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                    price: 75000
+  /v1/categories:
+    get:
+      tags:
+        - user access > category
+      summary: get all category
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:33:11 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '342'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  - id: 1
+                    name: Food and Beverages
+                    description: Send your food or beverages safely with us
+                    price: 30000
+                  - id: 2
+                    name: Fragile
+                    description: Send your fragile package safely with us
+                    price: 25000
+                  - id: 3
+                    name: tes
+                    description: Send your fragile package safely with us
+                    price: 25000
+  /v1/add-ons:
+    get:
+      tags:
+        - user access > add on
+      summary: get all add on
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:33:35 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '312'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  - id: 1
+                    name: Safe package
+                    description: Add more protection for your package
+                    price: 50000
+                  - id: 2
+                    name: Cooler
+                    description: Keep your food or drink cool
+                    price: 20000
+                  - id: 3
+                    name: Heatkeeper
+                    description: Keep your food or drink warm
+                    price: 15000
+  /v1/users:
+    get:
+      tags:
+        - user access > user
+      summary: get user profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:33:56 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '172'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 3
+                  email: user1@gmail.com
+                  full_name: user2
+                  phone: '08912345673'
+                  balance: 525000
+                  photo: ''
+                  refferal_code: qwerty34
+    put:
+      tags:
+        - user access > user
+      summary: update user profile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  example: user2
+                email:
+                  type: string
+                  example: dedyir@gmail.com
+                phone:
+                  type: integer
+                  example: '0897623823'
+                photo:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:37:45 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '283'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 3
+                  email: user2@gmail.com
+                  full_name: user2
+                  phone: '0897623823'
+                  balance: 725000
+                  photo: >-
+                    https://res.cloudinary.com/ddbitrcyl/image/upload/v1670189864/final-project-courier-app/atitkivrsnyvipcuab1d.jpg
+                  refferal_code: qwerty34
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:05:04 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: email already exist
+  /v1/users/top-up:
+    post:
+      tags:
+        - user access > user
+      summary: top up balance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                amount: 200000
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:36:22 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '172'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 3
+                  email: user1@gmail.com
+                  full_name: user2
+                  phone: '08912345673'
+                  balance: 725000
+                  photo: ''
+                  refferal_code: qwerty34
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:36:47 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: top up balance
+                  value:
+                    code: 400
+                    message: topup min Rp.10.000
+                example-1:
+                  summary: top up balance
+                  value:
+                    code: 400
+                    message: topup max Rp.10.000.000
+  /v1/users/shippings:
+    get:
+      tags:
+        - user access > shipping
+      summary: get all shipping user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: order
+          in: query
+          schema:
+            type: string
+          description: date, category, size, payment, status
+          example: date
+        - name: orderBy
+          in: query
+          schema:
+            type: string
+          description: asc, desc
+          example: asc
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '10'
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: only search by address name
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:01:43 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1777'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  page: 1
+                  limit: 10
+                  total_page: 1
+                  total_data: 2
+                  data:
+                    - id: 18
+                      size_id: 3
+                      category_id: 2
+                      address_id: 2
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-05T04:57:47.793469Z'
+                      size:
+                        id: 3
+                        name: Small
+                        description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                        price: 75000
+                      category:
+                        id: 2
+                        name: Fragile
+                        description: Send your fragile package safely with us
+                        price: 25000
+                      address:
+                        id: 13
+                        recipient_name: qwerty
+                        full_address: jl.indonesia
+                        recipient_phone: '089765345'
+                        user_id: 3
+                      payment:
+                        id: 46
+                        payment_status: PENDING
+                        total_cost: 165000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+                    - id: 17
+                      size_id: 1
+                      category_id: 1
+                      address_id: 1
+                      status_shipping: PROCESS
+                      review: null
+                      is_play_game: false
+                      created_at: '2022-12-05T04:49:41.595111Z'
+                      size:
+                        id: 1
+                        name: Large
+                        description: VOLUME > 50x50x50 cm OR WEIGHT > 3 kg
+                        price: 150000
+                      category:
+                        id: 1
+                        name: Food and Beverages
+                        description: Send your food or beverages safely with us
+                        price: 30000
+                      address:
+                        id: 13
+                        recipient_name: qwerty
+                        full_address: jl.indonesia
+                        recipient_phone: '089765345'
+                        user_id: 3
+                      payment:
+                        id: 45
+                        payment_status: PENDING
+                        total_cost: 265000
+                        promo_id: null
+                        promo: null
+                      add_ons:
+                        - id: 1
+                          name: Safe package
+                          description: Add more protection for your package
+                          price: 50000
+                        - id: 2
+                          name: Cooler
+                          description: Keep your food or drink cool
+                          price: 20000
+                        - id: 3
+                          name: Heatkeeper
+                          description: Keep your food or drink warm
+                          price: 15000
+    post:
+      tags:
+        - user access > shipping
+      summary: create shipping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                size_id: 1
+                category_id: 2
+                address_id: 13
+                add_ons_id:
+                  - 1
+                  - 2
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:57:47 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '270'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 201
+                message: success
+                data:
+                  id: 18
+                  size_id: 3
+                  category_id: 2
+                  address_id: 2
+                  status_shipping: PROCESS
+                  review: null
+                  is_play_game: false
+                  created_at: '2022-12-05T04:57:47.793469Z'
+                  size: null
+                  category: null
+                  address: null
+                  payment: null
+                  add_ons: []
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 21:59:05 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '59'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: create shipping
+                  value:
+                    code: 400
+                    message: Error field AddOnsId condition gt
+                example-1:
+                  summary: create shipping
+                  value:
+                    code: 400
+                    message: size not found
+                example-2:
+                  summary: create shipping
+                  value:
+                    code: 400
+                    message: category not found
+                example-3:
+                  summary: create shipping
+                  value:
+                    code: 400
+                    message: address not found
+  /v1/users/shippings/18:
+    get:
+      tags:
+        - user access > shipping
+      summary: get shipping user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:09:37 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '830'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  id: 18
+                  size_id: 3
+                  category_id: 2
+                  address_id: 2
+                  status_shipping: PROCESS
+                  review: null
+                  is_play_game: false
+                  created_at: '2022-12-05T04:57:47.793469Z'
+                  size:
+                    id: 3
+                    name: Small
+                    description: VOLUME <= 25x25x25 cm OR WEIGHT <= 2 kg
+                    price: 75000
+                  category:
+                    id: 2
+                    name: Fragile
+                    description: Send your fragile package safely with us
+                    price: 25000
+                  address:
+                    id: 13
+                    recipient_name: qwerty
+                    full_address: jl.indonesia
+                    recipient_phone: '089765345'
+                    user_id: 3
+                  payment:
+                    id: 46
+                    payment_status: PENDING
+                    total_cost: 165000
+                    promo_id: null
+                    promo: null
+                  add_ons:
+                    - id: 1
+                      name: Safe package
+                      description: Add more protection for your package
+                      price: 50000
+                    - id: 3
+                      name: Heatkeeper
+                      description: Keep your food or drink warm
+                      price: 15000
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:09:52 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '44'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 400
+                message: shipping not found
+  /v1/users/shippings/189/review:
+    put:
+      tags:
+        - user access > shipping
+      summary: review shipping user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                review: TES REVIEW
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:56:45 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '33'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:56:58 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '51'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: review shipping user
+                  value:
+                    code: 400
+                    message: shipping already reviewed
+                example-1:
+                  summary: review shipping user
+                  value:
+                    code: 400
+                    message: shipping not found
+  /v1/users/shippings/payments/45:
+    put:
+      tags:
+        - user access > payment
+      summary: pay shipping
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                promo_user_id: 3
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:14:39 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '126'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: pay shipping
+                  value:
+                    code: 200
+                    message: success
+                    data:
+                      id: 46
+                      payment_status: SUCCESS
+                      total_cost: 165000
+                      promo_id: null
+                      promo: null
+                example-1:
+                  summary: pay shipping
+                  value:
+                    code: 200
+                    message: success
+                    data:
+                      id: 45
+                      payment_status: SUCCESS
+                      total_cost: 250000
+                      promo_id: 17
+                      promo: null
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:15:46 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '43'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: pay shipping
+                  value:
+                    code: 400
+                    message: payment not found
+                example-1:
+                  summary: pay shipping
+                  value:
+                    code: 400
+                    message: promo not found
+  /v1/users/games/play:
+    post:
+      tags:
+        - user access > game
+      summary: pay game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                shipping_id: 18
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:50:45 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '151'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  name: Promo 2
+                  min_fee: 20000
+                  discount: 60
+                  max_discount: 15000
+                  expire_date: '2022-12-13T15:59:53.298Z'
+        '400':
+          description: Bad Request
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:52:05 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '56'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: pay game
+                  value:
+                    code: 400
+                    message: chance play game has been used
+                example-1:
+                  summary: pay game
+                  value:
+                    code: 400
+                    message: shipping not found
+  /v1/users/promos:
+    get:
+      tags:
+        - user access > promo
+      summary: get all promo user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Access-Control-Allow-Credentials:
+              schema:
+                type: boolean
+                example: 'true'
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: >-
+                  Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token,
+                  Authorization, accept, origin, Cache-Control, X-Requested-With
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: POST, OPTIONS, GET, PUT, DELETE
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: '*'
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Date:
+              schema:
+                type: string
+                example: Sun, 04 Dec 2022 22:55:50 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '204'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                code: 200
+                message: success
+                data:
+                  - id: 3
+                    is_used: false
+                    promo:
+                      id: 17
+                      name: Promo 2
+                      min_fee: 20000
+                      discount: 60
+                      max_discount: 15000
+                      quota: 5
+                      expire_date: '2022-12-13T15:59:53.298Z'
