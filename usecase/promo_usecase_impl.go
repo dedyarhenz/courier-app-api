@@ -117,7 +117,7 @@ func checkOrderPromo(order string) string {
 	case "quota":
 		order = "quota"
 	default:
-		order = "expired"
+		order = "expire_date"
 	}
 
 	return order
