@@ -13,6 +13,34 @@ type AddressRepository struct {
 	mock.Mock
 }
 
+// CountAddress provides a mock function with given fields: search
+func (_m *AddressRepository) CountAddress(search string) int64 {
+	ret := _m.Called(search)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(string) int64); ok {
+		r0 = rf(search)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
+// CountAddressByUserId provides a mock function with given fields: userId, search
+func (_m *AddressRepository) CountAddressByUserId(userId int, search string) int64 {
+	ret := _m.Called(userId, search)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(int, string) int64); ok {
+		r0 = rf(userId, search)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
 // CreateAddress provides a mock function with given fields: address
 func (_m *AddressRepository) CreateAddress(address entity.Address) (*entity.Address, error) {
 	ret := _m.Called(address)
@@ -36,8 +64,22 @@ func (_m *AddressRepository) CreateAddress(address entity.Address) (*entity.Addr
 	return r0, r1
 }
 
-// GetAddressBySpecificUser provides a mock function with given fields: userId, addressId
-func (_m *AddressRepository) GetAddressBySpecificUser(userId int, addressId int) (*entity.Address, error) {
+// DeleteAddressByUserId provides a mock function with given fields: userId, addressId
+func (_m *AddressRepository) DeleteAddressByUserId(userId int, addressId int) error {
+	ret := _m.Called(userId, addressId)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, int) error); ok {
+		r0 = rf(userId, addressId)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetAddressByUserId provides a mock function with given fields: userId, addressId
+func (_m *AddressRepository) GetAddressByUserId(userId int, addressId int) (*entity.Address, error) {
 	ret := _m.Called(userId, addressId)
 
 	var r0 *entity.Address
@@ -59,13 +101,13 @@ func (_m *AddressRepository) GetAddressBySpecificUser(userId int, addressId int)
 	return r0, r1
 }
 
-// GetAddressByUserId provides a mock function with given fields: userId
-func (_m *AddressRepository) GetAddressByUserId(userId int) ([]entity.Address, error) {
-	ret := _m.Called(userId)
+// GetAllAddress provides a mock function with given fields: offset, limit, search, orderAndSort
+func (_m *AddressRepository) GetAllAddress(offset int, limit int, search string, orderAndSort string) ([]entity.Address, error) {
+	ret := _m.Called(offset, limit, search, orderAndSort)
 
 	var r0 []entity.Address
-	if rf, ok := ret.Get(0).(func(int) []entity.Address); ok {
-		r0 = rf(userId)
+	if rf, ok := ret.Get(0).(func(int, int, string, string) []entity.Address); ok {
+		r0 = rf(offset, limit, search, orderAndSort)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]entity.Address)
@@ -73,8 +115,8 @@ func (_m *AddressRepository) GetAddressByUserId(userId int) ([]entity.Address, e
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(userId)
+	if rf, ok := ret.Get(1).(func(int, int, string, string) error); ok {
+		r1 = rf(offset, limit, search, orderAndSort)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -82,13 +124,13 @@ func (_m *AddressRepository) GetAddressByUserId(userId int) ([]entity.Address, e
 	return r0, r1
 }
 
-// GetAllAddress provides a mock function with given fields:
-func (_m *AddressRepository) GetAllAddress() ([]entity.Address, error) {
-	ret := _m.Called()
+// GetAllAddressByUserId provides a mock function with given fields: userId, offset, limit, search, orderAndSort
+func (_m *AddressRepository) GetAllAddressByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Address, error) {
+	ret := _m.Called(userId, offset, limit, search, orderAndSort)
 
 	var r0 []entity.Address
-	if rf, ok := ret.Get(0).(func() []entity.Address); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(int, int, int, string, string) []entity.Address); ok {
+		r0 = rf(userId, offset, limit, search, orderAndSort)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]entity.Address)
@@ -96,8 +138,31 @@ func (_m *AddressRepository) GetAllAddress() ([]entity.Address, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(int, int, int, string, string) error); ok {
+		r1 = rf(userId, offset, limit, search, orderAndSort)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateAddressByUserId provides a mock function with given fields: address
+func (_m *AddressRepository) UpdateAddressByUserId(address entity.Address) (*entity.Address, error) {
+	ret := _m.Called(address)
+
+	var r0 *entity.Address
+	if rf, ok := ret.Get(0).(func(entity.Address) *entity.Address); ok {
+		r0 = rf(address)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Address)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(entity.Address) error); ok {
+		r1 = rf(address)
 	} else {
 		r1 = ret.Error(1)
 	}

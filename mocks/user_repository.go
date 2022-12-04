@@ -105,6 +105,29 @@ func (_m *UserRepository) GetUserById(userId int) (*entity.User, error) {
 	return r0, r1
 }
 
+// GetUserByRefferalCode provides a mock function with given fields: refferalCode
+func (_m *UserRepository) GetUserByRefferalCode(refferalCode string) (*entity.User, error) {
+	ret := _m.Called(refferalCode)
+
+	var r0 *entity.User
+	if rf, ok := ret.Get(0).(func(string) *entity.User); ok {
+		r0 = rf(refferalCode)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(refferalCode)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // ReduceBalance provides a mock function with given fields: userId, amount
 func (_m *UserRepository) ReduceBalance(userId int, amount int) (*entity.User, error) {
 	ret := _m.Called(userId, amount)
@@ -149,6 +172,34 @@ func (_m *UserRepository) UpdateUser(user entity.User) (*entity.User, error) {
 	}
 
 	return r0, r1
+}
+
+// UpdatedCompleteBonus provides a mock function with given fields: userId, completeBonus
+func (_m *UserRepository) UpdatedCompleteBonus(userId int, completeBonus bool) error {
+	ret := _m.Called(userId, completeBonus)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, bool) error); ok {
+		r0 = rf(userId, completeBonus)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdatedCompleteBonusReff provides a mock function with given fields: userId, completeBonusReff
+func (_m *UserRepository) UpdatedCompleteBonusReff(userId int, completeBonusReff bool) error {
+	ret := _m.Called(userId, completeBonusReff)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, bool) error); ok {
+		r0 = rf(userId, completeBonusReff)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 type mockConstructorTestingTNewUserRepository interface {

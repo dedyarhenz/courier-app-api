@@ -36,6 +36,80 @@ func (_m *PaymentRepository) CreatePayment(payment entity.Payment) (*entity.Paym
 	return r0, r1
 }
 
+// GetPaymentById provides a mock function with given fields: paymentId
+func (_m *PaymentRepository) GetPaymentById(paymentId int) (*entity.Payment, error) {
+	ret := _m.Called(paymentId)
+
+	var r0 *entity.Payment
+	if rf, ok := ret.Get(0).(func(int) *entity.Payment); ok {
+		r0 = rf(paymentId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Payment)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(paymentId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// TotalCostPaymentByDate provides a mock function with given fields: startDate, endDate
+func (_m *PaymentRepository) TotalCostPaymentByDate(startDate string, endDate string) int64 {
+	ret := _m.Called(startDate, endDate)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(string, string) int64); ok {
+		r0 = rf(startDate, endDate)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
+// TotalCostPaymentSuccessUser provides a mock function with given fields: userId
+func (_m *PaymentRepository) TotalCostPaymentSuccessUser(userId int) int64 {
+	ret := _m.Called(userId)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(int) int64); ok {
+		r0 = rf(userId)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
+// UpdatePayment provides a mock function with given fields: payment
+func (_m *PaymentRepository) UpdatePayment(payment entity.Payment) (*entity.Payment, error) {
+	ret := _m.Called(payment)
+
+	var r0 *entity.Payment
+	if rf, ok := ret.Get(0).(func(entity.Payment) *entity.Payment); ok {
+		r0 = rf(payment)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Payment)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(entity.Payment) error); ok {
+		r1 = rf(payment)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 type mockConstructorTestingTNewPaymentRepository interface {
 	mock.TestingT
 	Cleanup(func())

@@ -36,22 +36,36 @@ func (_m *AddressUsecase) CreateAddress(request dto.AddressCreateRequest) (*dto.
 	return r0, r1
 }
 
-// GetAddressByUserId provides a mock function with given fields: userId
-func (_m *AddressUsecase) GetAddressByUserId(userId int) ([]dto.AddressResponse, error) {
-	ret := _m.Called(userId)
+// DeleteAddressByUserId provides a mock function with given fields: userId, addressId
+func (_m *AddressUsecase) DeleteAddressByUserId(userId int, addressId int) error {
+	ret := _m.Called(userId, addressId)
 
-	var r0 []dto.AddressResponse
-	if rf, ok := ret.Get(0).(func(int) []dto.AddressResponse); ok {
-		r0 = rf(userId)
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, int) error); ok {
+		r0 = rf(userId, addressId)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// GetAddressByUserId provides a mock function with given fields: userId, addressId
+func (_m *AddressUsecase) GetAddressByUserId(userId int, addressId int) (*dto.AddressResponse, error) {
+	ret := _m.Called(userId, addressId)
+
+	var r0 *dto.AddressResponse
+	if rf, ok := ret.Get(0).(func(int, int) *dto.AddressResponse); ok {
+		r0 = rf(userId, addressId)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]dto.AddressResponse)
+			r0 = ret.Get(0).(*dto.AddressResponse)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(userId)
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, addressId)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -59,22 +73,64 @@ func (_m *AddressUsecase) GetAddressByUserId(userId int) ([]dto.AddressResponse,
 	return r0, r1
 }
 
-// GetAllAddress provides a mock function with given fields:
-func (_m *AddressUsecase) GetAllAddress() ([]dto.AddressResponse, error) {
-	ret := _m.Called()
+// GetAllAddress provides a mock function with given fields: page, limit, search
+func (_m *AddressUsecase) GetAllAddress(page int, limit int, search string) (dto.AddressPaginateResponse, error) {
+	ret := _m.Called(page, limit, search)
 
-	var r0 []dto.AddressResponse
-	if rf, ok := ret.Get(0).(func() []dto.AddressResponse); ok {
-		r0 = rf()
+	var r0 dto.AddressPaginateResponse
+	if rf, ok := ret.Get(0).(func(int, int, string) dto.AddressPaginateResponse); ok {
+		r0 = rf(page, limit, search)
+	} else {
+		r0 = ret.Get(0).(dto.AddressPaginateResponse)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, string) error); ok {
+		r1 = rf(page, limit, search)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllAddressByUserId provides a mock function with given fields: userId, page, limit, search
+func (_m *AddressUsecase) GetAllAddressByUserId(userId int, page int, limit int, search string) (dto.AddressPaginateResponse, error) {
+	ret := _m.Called(userId, page, limit, search)
+
+	var r0 dto.AddressPaginateResponse
+	if rf, ok := ret.Get(0).(func(int, int, int, string) dto.AddressPaginateResponse); ok {
+		r0 = rf(userId, page, limit, search)
+	} else {
+		r0 = ret.Get(0).(dto.AddressPaginateResponse)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, int, string) error); ok {
+		r1 = rf(userId, page, limit, search)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateAddressByUserId provides a mock function with given fields: request
+func (_m *AddressUsecase) UpdateAddressByUserId(request dto.AddressUpdateRequest) (*dto.AddressResponse, error) {
+	ret := _m.Called(request)
+
+	var r0 *dto.AddressResponse
+	if rf, ok := ret.Get(0).(func(dto.AddressUpdateRequest) *dto.AddressResponse); ok {
+		r0 = rf(request)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]dto.AddressResponse)
+			r0 = ret.Get(0).(*dto.AddressResponse)
 		}
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(dto.AddressUpdateRequest) error); ok {
+		r1 = rf(request)
 	} else {
 		r1 = ret.Error(1)
 	}

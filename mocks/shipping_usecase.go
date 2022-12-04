@@ -36,6 +36,143 @@ func (_m *ShippingUsecase) CreateShipping(request dto.ShippingCreateRequest) (*d
 	return r0, r1
 }
 
+// GetAllReportShippingByDate provides a mock function with given fields: month, year, page, limit, sortBy
+func (_m *ShippingUsecase) GetAllReportShippingByDate(month int, year int, page int, limit int, sortBy string) (dto.ShippingReportPaginateResponse, error) {
+	ret := _m.Called(month, year, page, limit, sortBy)
+
+	var r0 dto.ShippingReportPaginateResponse
+	if rf, ok := ret.Get(0).(func(int, int, int, int, string) dto.ShippingReportPaginateResponse); ok {
+		r0 = rf(month, year, page, limit, sortBy)
+	} else {
+		r0 = ret.Get(0).(dto.ShippingReportPaginateResponse)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, int, int, string) error); ok {
+		r1 = rf(month, year, page, limit, sortBy)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllShipping provides a mock function with given fields: page, limit, search, order, sortBy
+func (_m *ShippingUsecase) GetAllShipping(page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
+	ret := _m.Called(page, limit, search, order, sortBy)
+
+	var r0 dto.ShippingPaginateResponse
+	if rf, ok := ret.Get(0).(func(int, int, string, string, string) dto.ShippingPaginateResponse); ok {
+		r0 = rf(page, limit, search, order, sortBy)
+	} else {
+		r0 = ret.Get(0).(dto.ShippingPaginateResponse)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, string, string, string) error); ok {
+		r1 = rf(page, limit, search, order, sortBy)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllShippingByUserId provides a mock function with given fields: userId, page, limit, search, order, sortBy
+func (_m *ShippingUsecase) GetAllShippingByUserId(userId int, page int, limit int, search string, order string, sortBy string) (dto.ShippingPaginateResponse, error) {
+	ret := _m.Called(userId, page, limit, search, order, sortBy)
+
+	var r0 dto.ShippingPaginateResponse
+	if rf, ok := ret.Get(0).(func(int, int, int, string, string, string) dto.ShippingPaginateResponse); ok {
+		r0 = rf(userId, page, limit, search, order, sortBy)
+	} else {
+		r0 = ret.Get(0).(dto.ShippingPaginateResponse)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, int, string, string, string) error); ok {
+		r1 = rf(userId, page, limit, search, order, sortBy)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetShippingById provides a mock function with given fields: shippingId
+func (_m *ShippingUsecase) GetShippingById(shippingId int) (*dto.ShippingResponse, error) {
+	ret := _m.Called(shippingId)
+
+	var r0 *dto.ShippingResponse
+	if rf, ok := ret.Get(0).(func(int) *dto.ShippingResponse); ok {
+		r0 = rf(shippingId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dto.ShippingResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(shippingId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetShippingByUserId provides a mock function with given fields: userId, shippingId
+func (_m *ShippingUsecase) GetShippingByUserId(userId int, shippingId int) (*dto.ShippingResponse, error) {
+	ret := _m.Called(userId, shippingId)
+
+	var r0 *dto.ShippingResponse
+	if rf, ok := ret.Get(0).(func(int, int) *dto.ShippingResponse); ok {
+		r0 = rf(userId, shippingId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*dto.ShippingResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, shippingId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateReviewByUserId provides a mock function with given fields: request
+func (_m *ShippingUsecase) UpdateReviewByUserId(request dto.ShippingReviewRequest) error {
+	ret := _m.Called(request)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(dto.ShippingReviewRequest) error); ok {
+		r0 = rf(request)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateStatusShipping provides a mock function with given fields: request
+func (_m *ShippingUsecase) UpdateStatusShipping(request dto.ShippingUpdateStatusRequest) error {
+	ret := _m.Called(request)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(dto.ShippingUpdateStatusRequest) error); ok {
+		r0 = rf(request)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 type mockConstructorTestingTNewShippingUsecase interface {
 	mock.TestingT
 	Cleanup(func())

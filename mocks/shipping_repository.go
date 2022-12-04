@@ -13,6 +13,48 @@ type ShippingRepository struct {
 	mock.Mock
 }
 
+// CountShipping provides a mock function with given fields: search
+func (_m *ShippingRepository) CountShipping(search string) int64 {
+	ret := _m.Called(search)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(string) int64); ok {
+		r0 = rf(search)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
+// CountShippingByDate provides a mock function with given fields: startDate, endDate
+func (_m *ShippingRepository) CountShippingByDate(startDate string, endDate string) int64 {
+	ret := _m.Called(startDate, endDate)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(string, string) int64); ok {
+		r0 = rf(startDate, endDate)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
+// CountShippingByUserId provides a mock function with given fields: userId, search
+func (_m *ShippingRepository) CountShippingByUserId(userId int, search string) int64 {
+	ret := _m.Called(userId, search)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(int, string) int64); ok {
+		r0 = rf(userId, search)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	return r0
+}
+
 // CreateShipping provides a mock function with given fields: shipping
 func (_m *ShippingRepository) CreateShipping(shipping entity.Shipping) (*entity.Shipping, error) {
 	ret := _m.Called(shipping)
@@ -34,6 +76,172 @@ func (_m *ShippingRepository) CreateShipping(shipping entity.Shipping) (*entity.
 	}
 
 	return r0, r1
+}
+
+// GetAllReportShippingByDate provides a mock function with given fields: startDate, endDate, offset, limit, orderAndSort
+func (_m *ShippingRepository) GetAllReportShippingByDate(startDate string, endDate string, offset int, limit int, orderAndSort string) ([]entity.Shipping, error) {
+	ret := _m.Called(startDate, endDate, offset, limit, orderAndSort)
+
+	var r0 []entity.Shipping
+	if rf, ok := ret.Get(0).(func(string, string, int, int, string) []entity.Shipping); ok {
+		r0 = rf(startDate, endDate, offset, limit, orderAndSort)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string, int, int, string) error); ok {
+		r1 = rf(startDate, endDate, offset, limit, orderAndSort)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllShipping provides a mock function with given fields: offset, limit, search, orderAndSort
+func (_m *ShippingRepository) GetAllShipping(offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error) {
+	ret := _m.Called(offset, limit, search, orderAndSort)
+
+	var r0 []entity.Shipping
+	if rf, ok := ret.Get(0).(func(int, int, string, string) []entity.Shipping); ok {
+		r0 = rf(offset, limit, search, orderAndSort)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, string, string) error); ok {
+		r1 = rf(offset, limit, search, orderAndSort)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetAllShippingByUserId provides a mock function with given fields: userId, offset, limit, search, orderAndSort
+func (_m *ShippingRepository) GetAllShippingByUserId(userId int, offset int, limit int, search string, orderAndSort string) ([]entity.Shipping, error) {
+	ret := _m.Called(userId, offset, limit, search, orderAndSort)
+
+	var r0 []entity.Shipping
+	if rf, ok := ret.Get(0).(func(int, int, int, string, string) []entity.Shipping); ok {
+		r0 = rf(userId, offset, limit, search, orderAndSort)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int, int, string, string) error); ok {
+		r1 = rf(userId, offset, limit, search, orderAndSort)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetShippingById provides a mock function with given fields: shippingId
+func (_m *ShippingRepository) GetShippingById(shippingId int) (*entity.Shipping, error) {
+	ret := _m.Called(shippingId)
+
+	var r0 *entity.Shipping
+	if rf, ok := ret.Get(0).(func(int) *entity.Shipping); ok {
+		r0 = rf(shippingId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(shippingId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetShippingByUserId provides a mock function with given fields: userId, shippingId
+func (_m *ShippingRepository) GetShippingByUserId(userId int, shippingId int) (*entity.Shipping, error) {
+	ret := _m.Called(userId, shippingId)
+
+	var r0 *entity.Shipping
+	if rf, ok := ret.Get(0).(func(int, int) *entity.Shipping); ok {
+		r0 = rf(userId, shippingId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int, int) error); ok {
+		r1 = rf(userId, shippingId)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateReviewByUserId provides a mock function with given fields: userId, shippingId, review
+func (_m *ShippingRepository) UpdateReviewByUserId(userId int, shippingId int, review string) error {
+	ret := _m.Called(userId, shippingId, review)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, int, string) error); ok {
+		r0 = rf(userId, shippingId, review)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// UpdateShipping provides a mock function with given fields: shipping
+func (_m *ShippingRepository) UpdateShipping(shipping entity.Shipping) (*entity.Shipping, error) {
+	ret := _m.Called(shipping)
+
+	var r0 *entity.Shipping
+	if rf, ok := ret.Get(0).(func(entity.Shipping) *entity.Shipping); ok {
+		r0 = rf(shipping)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Shipping)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(entity.Shipping) error); ok {
+		r1 = rf(shipping)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateStatusShipping provides a mock function with given fields: shippingId, statusShipping
+func (_m *ShippingRepository) UpdateStatusShipping(shippingId int, statusShipping string) error {
+	ret := _m.Called(shippingId, statusShipping)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(int, string) error); ok {
+		r0 = rf(shippingId, statusShipping)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 type mockConstructorTestingTNewShippingRepository interface {
