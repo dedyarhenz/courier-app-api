@@ -47,6 +47,7 @@ func (r *ShippingRepositoryImpl) GetAllShipping(offset int, limit int, search st
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
+		Preload("AddOns").
 		Where("status_shipping ILIKE CONCAT('%',?,'%')", search).
 		Offset(offset).
 		Limit(limit).
@@ -104,6 +105,7 @@ func (r *ShippingRepositoryImpl) GetAllShippingByUserId(userId int, offset int, 
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
+		Preload("AddOns").
 		Where("status_shipping ILIKE CONCAT('%',?,'%')", search).
 		Offset(offset).
 		Limit(limit).
@@ -237,6 +239,7 @@ func (r *ShippingRepositoryImpl) GetAllReportShippingByDate(startDate string, en
 		Preload("Size").
 		Preload("Category").
 		Preload("Payment").
+		Preload("AddOns").
 		Where("shippings.created_at >= ?", startDate).
 		Where("shippings.created_at <= ?", endDate).
 		Offset(offset).
