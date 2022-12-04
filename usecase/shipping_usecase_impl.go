@@ -223,7 +223,7 @@ func (u *ShippingUsecaseImpl) CreateShipping(request dto.ShippingCreateRequest) 
 
 	addOns, err := u.repoAddOn.GetAddOnByMultipleId(request.AddOnsId)
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	size, err := u.repoSize.GetSizeById(request.SizeId)
