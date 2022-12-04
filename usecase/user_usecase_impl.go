@@ -30,8 +30,13 @@ func (u *UserUsecaseImpl) GetUserById(userId int) (*dto.UserResponse, error) {
 }
 
 func (u *UserUsecaseImpl) UpdateUserById(request dto.UserUpdateRequest) (*dto.UserResponse, error) {
+	userOld, errr := u.repoUser.GetUserById(request.Id)
+	if errr != nil {
+		return nil, errr
+	}
+
 	userAlready, _ := u.repoUser.GetUserByEmail(request.Email)
-	if userAlready != nil && userAlready.Email != request.Email {
+	if userAlready != nil && userAlready.Email != userOld.Email {
 		return nil, custErr.ErrEmailAlready
 	}
 
