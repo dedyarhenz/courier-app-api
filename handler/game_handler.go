@@ -25,7 +25,7 @@ func NewGameHandler(usecase usecase.GameUsecase) GameHandler {
 func (h *GameHandler) Play(c *gin.Context) {
 	reqGamePlay := dto.GamePlayRequest{}
 
-	err := c.ShouldBind(&reqGamePlay)
+	err := c.ShouldBindJSON(&reqGamePlay)
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
