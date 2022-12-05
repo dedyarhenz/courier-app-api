@@ -96,7 +96,7 @@ func (h *AddressHandler) GetAddressByUserId(c *gin.Context) {
 func (h *AddressHandler) CreateAddress(c *gin.Context) {
 	var reqAddress dto.AddressCreateRequest
 
-	err := c.ShouldBind(&reqAddress)
+	err := c.ShouldBindJSON(&reqAddress)
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
@@ -125,7 +125,7 @@ func (h *AddressHandler) CreateAddress(c *gin.Context) {
 func (h *AddressHandler) UpdateAddressByUserId(c *gin.Context) {
 	var reqAddress dto.AddressUpdateRequest
 
-	err := c.ShouldBind(&reqAddress)
+	err := c.ShouldBindJSON(&reqAddress)
 	if err != nil {
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
