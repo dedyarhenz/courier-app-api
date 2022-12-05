@@ -41,6 +41,10 @@ func (r *ShippingRepositoryImpl) GetAllShipping(offset int, limit int, search st
 	var shippings []entity.Shipping
 
 	err := r.db.
+		Joins(`
+			INNER JOIN payments 
+			ON payments.id = shippings.payment_id
+		`).
 		Preload("Address", func(db *gorm.DB) *gorm.DB {
 			return db.Unscoped()
 		}).
