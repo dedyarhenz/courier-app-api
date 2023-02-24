@@ -32,6 +32,8 @@ type JWTConfig struct {
 }
 
 func InitConfig() *Config {
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.SetConfigName("config")
 	viper.SetConfigType("yml")
 	viper.AddConfigPath(".")
